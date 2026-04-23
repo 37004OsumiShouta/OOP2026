@@ -10,23 +10,15 @@ namespace DistanceConverter
 {
     public class FeetConverter
     {
+        public static readonly double ratio = 0.3048;    //定数
 
-
-        static void Main(string[] args)
-        {
+        // メートルからフィートを求める
+        public static double ToFeet(int meter){
+            return meter / ratio;
         }
-
-
-        // フィート→メートル
-        public static double FromMeter(int feet)
-        {
-            return feet * 0.3048;
-        }
-
-        // メートル→フィート
-        public static double ToFeet(int meter)
-        {
-            return meter / 0.3048;
+        // フィートからメートルを求める
+        public static double FromMeter(int feet){
+            return feet * ratio;
         }
     }
 }

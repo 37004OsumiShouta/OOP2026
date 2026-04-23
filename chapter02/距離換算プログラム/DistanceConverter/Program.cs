@@ -20,6 +20,17 @@ namespace DistanceConverter
                     Console.WriteLine("引数エラー");
                 }
 
+　　　　　　　　// フィートからメートルへの対応表
+                static void PrintFeetToMeterList(int start, int stop)
+                {
+                    for (int feet = start; feet <= stop; feet++)
+                    {
+                        double meter = FeetConverter.ToFeet(feet);
+                        Console.WriteLine($"{feet}ft = {meter:0.0000}m");
+                    }
+                }
+
+
                 // メートルからフィートへの対応表
                 static void PrintMeterToFeetList(int start, int stop)
                 {
@@ -30,15 +41,7 @@ namespace DistanceConverter
                     }
                 }
 
-                // フィートからメートルへの対応表
-                static void PrintFeetToMeterList(int start, int stop)
-                {
-                    for (int feet = start; feet <= stop; feet++)
-                    {
-                        double meter = FeetConverter.ToFeet(feet);
-                        Console.WriteLine($"{feet}ft = {meter:0.0000}m");
-                    }
-                }
+                
             }
         }
 
