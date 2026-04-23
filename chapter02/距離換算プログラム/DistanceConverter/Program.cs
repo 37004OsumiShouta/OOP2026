@@ -50,5 +50,5 @@ namespace DistanceConverter
                 //// メートル→フィート
                 //public double FromMeter(int meter){
                 //    return meter / 0.3048;
-                }
-        }
+    }
+}
