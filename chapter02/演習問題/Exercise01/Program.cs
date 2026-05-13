@@ -5,15 +5,15 @@ namespace Exercise01 {
         static void Main(string[] args) {
             var songs = new List<Song>();
             while (true) {
-                Console.WriteLine("アーティスト名:");
+                Console.Write("アーティスト名:");
                 string? artistName = Console.ReadLine();
                 if (artistName == "end") {
                     break;
                 } else {
-                    Console.WriteLine("曲名:");
+                    Console.Write("曲名:");
                     string? title = Console.ReadLine();
 
-                    Console.WriteLine("演奏時間:");
+                    Console.Write("演奏時間:");
                     int length = int.Parse(Console.ReadLine());
 
                     Song song = new Song(title, artistName, length);

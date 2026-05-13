@@ -45,10 +45,10 @@ namespace DistanceConverter
             }
         }
 
-                //// フィート→メートル
-                //public double ToFeet(int feet){
-                //    return feet * 0.3048;
-                //}
+                 
+                public double ToFeet(int feet){
+                    return feet * 0.3048;
+                }
 
                 //// メートル→フィート
                 //public double FromMeter(int meter){
