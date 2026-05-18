@@ -1,14 +1,19 @@
 ﻿namespace Section01 {
     internal class Program {
+        public delegate bool Judgement(int value);
+
         static void Main(string[] args) {
-            var count = Count(5);
+            var numbers = new[] { 5, 3, 9, 6, 7, 5, 8, 1, 0, 5, 10, 4 };
+
+
+            //var count = Count(numbers,n => n % 2 == 0);
+            var count = Count(numbers, n => n % 4 == 0 || n % 5 == 0);
             Console.WriteLine(count);
         }
-        static int Count(int num) {
-            var numbers = new[] { 5, 3, 9, 6, 7, 5, 8, 1, 0, 5, 10, 4 };
+        static int Count(int[] numbers ,Predicate <int>judge) {
             var count = 0;
             foreach (var n in numbers) {
-                if (n == num) {
+                if (judge(n) == true) {
                     count++;
                 }
             }
