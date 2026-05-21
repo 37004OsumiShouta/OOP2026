@@ -53,8 +53,8 @@ namespace Exercise02 {
             var query = cities
                 .Where(s => s.StartsWith('B'))
                 .Select(s => s.Length);
-            foreach (var s in query) 
-            Console.WriteLine(s);
+            foreach (var s in query)
+                Console.WriteLine(s);
         }
     }
 }
