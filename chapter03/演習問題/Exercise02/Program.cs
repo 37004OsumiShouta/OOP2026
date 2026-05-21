@@ -1,4 +1,6 @@
-﻿namespace Exercise02 {
+﻿using System.Linq;
+
+namespace Exercise02 {
     internal class Program {
         static void Main(string[] args) {
             var cities = new List<string> {
@@ -33,6 +35,8 @@
 
         private static void Exercise2_2(List<string> cities) {
             //できたらGitのコメント「問題3.2.2完成」
+            var exists = cities.Count(s => s.Contains('o'));
+            Console.WriteLine(exists);
 
         }
 
