@@ -3,6 +3,8 @@ using System.Net.WebSockets;
 
 namespace Exercise02 {
     internal class Program {
+        private static string? str;
+
         static void Main(string[] args) {
             var cities = new List<string> {
                 "Tokyo", "New Delhi", "Bangkok", "London",
@@ -28,10 +30,15 @@ namespace Exercise02 {
 
         private static void Exercise2_1(List<string> cities) {
             //できたらGitのコメント「問題3.2.1完成」
-            var name = Console.ReadLine();
-            int index = cities.FindIndex(s => s == name);
-            Console.WriteLine(index);
-
+            while (true) {
+                var name = Console.ReadLine();
+                if (string.IsNullOrEmpty(name)) {
+                    Console.WriteLine();
+                    break;
+                }
+                int index = cities.FindIndex(s => s == name);
+                Console.WriteLine(index);
+            }
         }
 
         private static void Exercise2_2(List<string> cities) {
@@ -45,16 +52,16 @@ namespace Exercise02 {
             //できたらGitのコメント「問題3.2.3完成」
             var query = cities.Where(s => s.Contains('o'));
             foreach (var s in query)
-            Console.WriteLine(s);
+                Console.WriteLine(s);
         }
 
         private static void Exercise2_4(List<string> cities) {
             //できたらGitのコメント「問題3.2.4完成」
-            var query = cities
+            var obj = cities
                 .Where(s => s.StartsWith('B'))
-                .Select(s => s.Length);
-            foreach (var s in query)
-                Console.WriteLine(s);
+                .Select(s =>new {s, s.Length});
+            foreach (var data in obj)
+                Console.WriteLine(data.s + ":" + data.Length + "文字");
         }
     }
 }
