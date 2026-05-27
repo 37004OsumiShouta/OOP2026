@@ -13,7 +13,7 @@ namespace Exercise01 {
             Exercise1(langs);
             Console.WriteLine("--4-1-2--");
             Exercise2(langs);
-            
+
             Exercise3(langs);
             Console.WriteLine("---");
         }
@@ -22,8 +22,8 @@ namespace Exercise01 {
             //foreach文
             Console.WriteLine("foreach文で出力");
             foreach (var s in langs) {
-                if(s.Contains("S"))
-                Console.WriteLine(s);
+                if (s.Contains("S"))
+                    Console.WriteLine(s);
             }
             Console.WriteLine();//改行
             //for文
@@ -52,21 +52,8 @@ namespace Exercise01 {
 
         private static void Exercise3(List<string> langs) {
             Console.WriteLine("\n---4-1-3---");
-            var name = langs.Find(s => s.Length == 10);
-           
-            var message = GetMessage(name) ?? "unknown";
-            Console.WriteLine(message);
-
-            message = null;
-            message ??= "null";
-        }
-
-        private static object? DefaultMessage() {
-            return DefaultMessage;
-        }
-
-        private static object? GetMessage(string code) {
-            return code;
+            var name = langs.Find(s => s.Length == 10) ?? "unknown";
+            Console.WriteLine(name);
         }
     }
 }
