@@ -7,5 +7,8 @@
             this.v1 = v1;
             this.v2 = v2;
         }
+
+        public bool Is21Century { get; internal set; }
+        public string Year { get; internal set; }
     }
 }

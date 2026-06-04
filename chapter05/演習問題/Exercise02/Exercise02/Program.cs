@@ -17,17 +17,33 @@ namespace Exercise02 {
             Console.WriteLine("5.2.4");
             Exercise4(ymCollection);
 
-
             Console.WriteLine("5.2.5");
             Exercise5(ymCollection);
         }
 
         private static void Exercise2(YearMonth[] ymCollection) {
-            
+            foreach(var m in ymCollection) {
+                Console.WriteLine(m);
+            }
         }
 
+        private static YearMonth? FindFirst210C(YearMonth[] ymCollection) {
+            foreach(var ym in ymCollection) {
+                if (ym.Is21Century) {
+                    return ym;
+                }
+            }
+            return null;
+        }
+
+
         private static void Exercise4(YearMonth[] ymCollection) {
-            
+            var ym = FindFirst210C(ymCollection);
+            if(ym is null) {
+                Console.WriteLine("21世紀のデータはありません");
+            } else {
+                Console.WriteLine(ym);
+            }
         }
 
         private static void Exercise5(YearMonth[] ymCollection) {
