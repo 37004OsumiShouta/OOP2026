@@ -1,4 +1,6 @@
-﻿namespace Exercise02 {
+﻿
+
+namespace Exercise02 {
     internal class YearMonth {
         private int v1;
         private int v2;
@@ -10,5 +12,9 @@
 
         public bool Is21Century { get; internal set; }
         public string Year { get; internal set; }
+
+        internal object AddOneMonth() {
+            throw new NotImplementedException();
+        }
     }
-}
+    }
