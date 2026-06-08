@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Exercise01 {
-    public class YearMonth {
+    public record YearMonth {
         //5.1.1
         public int Year { get; init; }
 

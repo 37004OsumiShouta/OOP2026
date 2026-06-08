@@ -1,4 +1,5 @@
 ﻿using Exercise01;
+
 namespace Exercise02 {
     internal class Program {
         static void Main(string[] args) {
@@ -47,10 +48,13 @@ namespace Exercise02 {
         }
 
         private static void Exercise5(YearMonth[] ymCollection) {
-            var a = ymCollection.Select(s => s.AddOneMonth());
-            foreach (var n in a) {
-                Console.WriteLine(a);
+            var array = ymCollection.Select(s => s.AddOneMonth()).ToArray();
+            Exercise2(array);
             }
+
+        private static void Exercise2(object[] array) {
+            throw new NotImplementedException();
         }
     }
-}
+    }
+    
