@@ -1,4 +1,6 @@
 ﻿
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.Design;
 using System.Text;
 
 namespace Exercise03 {
@@ -28,7 +30,7 @@ namespace Exercise03 {
 
         private static void Exercise1(string text) {
             var count = 0;
-            foreach(char c in text) {
+            foreach (char c in text) {
                 if (c == ' ')
                     count++;
             }
@@ -43,21 +45,48 @@ namespace Exercise03 {
         }
 
         private static void Exercise3(string text) {
-            
+
         }
 
         private static void Exercise4(string text) {
             string[] words = text.Split(' ');
-            Console.WriteLine("単語数: "+ words.Length);
+            Console.WriteLine("単語数: " + words.Length);
 
         }
 
         private static void Exercise5(string text) {
-            
+            //即時実行List
+            //var words = text.Split(' ').Where(s => s.Length <= 4)//.ToList().ForEach(ConsoleWriteLine);
+            //それ以外
+            //foreach (var c in words) {
+            /// Console.WriteLine(c);
         }
 
         private static void Exercise6(string text) {
+            var str = text.ToLower().Replace(" ", " ");
+            //辞書（ディクショナリ）を使った集計
+            //var alphDicCount = Enumerable.Range('a', 26).
+            //    ToDictionary(num => ((char)num).ToString(),num => 0);
+            var dict = new SortedDictionary<char, int>();
+            foreach (var c in str) {
+                if (dict.ContainsKey(c))
+                    dict[c]++;
+                else
+                    dict[c] = 1;
+            }
+            foreach(var word in dict) {
+                Console.WriteLine(word.Key + ":" + word.Value);
+            }
+        }
+        
+
+
+            //配列を用いた集計
+
+
+
+            //'a'から順にカウントして集計
+            
             
         }
     }
-}
