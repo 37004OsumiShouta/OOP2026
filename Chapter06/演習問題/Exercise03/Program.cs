@@ -92,8 +92,10 @@ namespace Exercise03 {
 
 
             //'a'から順にカウントして集計
+            for (char ch = 'a'; ch <= 'z'; ch++) {
+                Console.WriteLine($"{ch}:{str.Count(c => c == ch )}");
 
-
+            }
         }
     }
 }
