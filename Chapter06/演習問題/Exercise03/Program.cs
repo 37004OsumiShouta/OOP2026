@@ -45,12 +45,22 @@ namespace Exercise03 {
         }
 
         private static void Exercise3(string text) {
-            string[] words = text.Split(' ');
+            var array = text.Split(' ');
             var sb = new StringBuilder();
-            foreach(var word in text) {
-                sb.Append(word);
+
+            sb.Append(array[0]);
+            for (int i = 1; i < array.Length; i++) {
+                sb.Append(' ');
+                sb.Append(array[i]);
+
+                //}
+                //foreach(var word in array) {
+                //    sb.Append(word);
+
+
+
             }
-            Console.WriteLine(sb); 
+            Console.WriteLine(sb + ".");
         }
 
         private static void Exercise4(string text) {
