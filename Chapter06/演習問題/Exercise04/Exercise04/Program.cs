@@ -2,12 +2,12 @@
     internal class Program {
         static void Main(string[] args) {
             var line = "Novelist=谷崎潤一郎;BestWork=春琴抄;Born=1886";
-            var name = line.Split('=');
-            foreach (var sb in name) {
-
+            var name = line.Split(';', '=').ToArray();
+            for (int i = 0; i < name.Length; i++) {
+                Console.WriteLine(ToJapanese(name[i])+ ":" + name[i + 1]);
+                i++;
             }
-
-
+            //foreach (var names in name) {
         }
         static string ToJapanese(string key) {
             return key switch {
