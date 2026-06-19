@@ -23,8 +23,7 @@ namespace Exercise01 {
         }
 
         private static void Exercise1(int[] numbers) {
-            var max = numbers.Max();
-            Console.WriteLine(max);
+            Console.WriteLine(numbers.Max());
         }
 
         private static void Exercise2(int[] numbers) {
@@ -44,7 +43,8 @@ namespace Exercise01 {
         }
 
         private static void Exercise5(int[] numbers) {
-            
+            var results = numbers.Distinct().Count(n => n > 10);
+            Console.WriteLine(results);
         }
     }
 }
