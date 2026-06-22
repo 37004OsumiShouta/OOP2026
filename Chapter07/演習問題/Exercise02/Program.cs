@@ -51,13 +51,12 @@ namespace Exercise02 {
         private static void Exercise3(List<Book> books) {
             var book = books.Where(n => n.Title.Contains("C#")).Average(n => n.Pages);
                 Console.WriteLine(book);
-
         }
 
         private static void Exercise4(List<Book> books) {
             var book = books.Where(n => n.Price >= 4000).Take(1);
-            foreach(var b in book)
-            Console.WriteLine(b.Title);
+            foreach (var b in book)
+                Console.WriteLine(b.Title);
         }
 
         private static void Exercise5(List<Book> books) {
@@ -70,8 +69,8 @@ namespace Exercise02 {
         private static void Exercise6(List<Book> books) {
             var book = books.Where(n => n.Pages >= 400)
                 .OrderByDescending(n => n.Price);
-            foreach(var b in book)
-            Console.WriteLine(b.Title + b.Price);
+            foreach (var b in book)
+                Console.WriteLine("タイトル:" + b.Title + ", 値段:" + b.Price + "円");
         }
 
         private static void Exercise7(List<Book> books) {
