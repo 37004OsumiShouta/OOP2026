@@ -20,20 +20,30 @@ namespace Section01 {
 
                 //3 県庁所在地登録処理
                 prefOfficeDict.Add(pref, prefCaptalLocation);
+            }
+            while (true) {
+
                 Console.WriteLine("******メニュー******");
                 Console.WriteLine("1:一覧表示");
                 Console.WriteLine("2:検索");
                 Console.WriteLine("3:終了");
-                Console.WriteLine(">");
+                Console.Write(">");
                 var n = Console.ReadLine();
                 if (n == "3") {
                     break;
                 }
                 switch (n) {
-                    case 
-                foreach (var item in prefOfficeDict) {
-                    Console.WriteLine($"{item.Key}の県庁所在地は{item.Value}です");
-
+                    case "1":
+                        foreach (var item in prefOfficeDict) {
+                            Console.WriteLine($"{item.Key}の県庁所在地は{item.Value}です");
+                        }
+                        break;
+                    case "2":
+                        Console.WriteLine("都道府県：");
+                        var search = Console.ReadLine();
+                        var nu = prefOfficeDict[search];
+                        Console.WriteLine(nu);
+                        break;
                 }
             }
         }
