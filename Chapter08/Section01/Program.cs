@@ -19,10 +19,19 @@ namespace Section01 {
                 prefCaptalLocation = Console.ReadLine();
 
                 //3 県庁所在地登録処理
-                prefOfficeDict.Add(pref, prefCaptalLocation);
+                var m = pref;
+                if (prefOfficeDict.ContainsKey(m)) {
+                    Console.WriteLine("上書きしますか？(Y/N)");
+                    var n = Console.ReadLine();
+                    if(n is "Y") {
+                        prefOfficeDict[pref] = prefCaptalLocation;
+                    }
+                } else {
+                    prefOfficeDict.Add(pref, prefCaptalLocation);
+                }
             }
             while (true) {
-
+                //メニュー表示
                 Console.WriteLine("******メニュー******");
                 Console.WriteLine("1:一覧表示");
                 Console.WriteLine("2:検索");
