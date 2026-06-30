@@ -1,4 +1,6 @@
 ﻿
+using System.ComponentModel;
+
 namespace Exercise01 {
     internal class Program {
         static void Main(string[] args) {
@@ -9,11 +11,22 @@ namespace Exercise01 {
         }
 
         private static void Exercise01(string text) {
-            var 
+            var array = new Dictionary<char, int>();
+            foreach (char ch in text.ToUpper()) {
+                if ('A' <= ch && ch <= 'Z') {
+                    if (array.ContainsKey(ch)) {
+                        array[ch]++;
+                    } else {
+                        array[ch] = 1;
+                    }
+                }
+            }
+            foreach (var a in array.OrderBy(x => x.Key))
+                Console.WriteLine($"{a.Key}:{a.Value}");
         }
 
         private static void Exercise02(string text) {
-            
+
         }
     }
 }
