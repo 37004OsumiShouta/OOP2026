@@ -17,9 +17,18 @@ namespace Section01 {
             if (today < birth.AddYears(age)) {
                 age--;
             }
-            tbOut.Text = $"あなたは{age}歳です";
+            tbOut.Text = $"あなたは{GetAge(birth,today)}歳です";
             TimeSpan ts = today.Date - birth.Date;
             tbOut2.Text = $"生まれてから{ts.Days}日目です。";
+        }
+        //年齢を求めるメソッド
+        static int GetAge(DateTime birthday, DateTime targetDay) {
+            var age = targetDay.Year - birthday.Year;
+            if (targetDay < birthday.AddYears(age)) {
+                age--;
+                
+            }
+            return age;
         }
     }
 }
