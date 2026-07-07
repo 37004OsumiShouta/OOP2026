@@ -17,9 +17,9 @@ namespace Section01 {
             if (today < birth.AddYears(age)) {
                 age--;
             }
-            int days = (today - birth).Days;
             tbOut.Text = $"‚ ‚È‚½‚Í{age}Î‚Å‚·";
-            tbOut2.Text = $"¶‚Ü‚ê‚Ä‚©‚ç{days}“úŒo‰ß‚µ‚Ä‚¢‚Ü‚·";
+            TimeSpan ts = today.Date - birth.Date;
+            tbOut2.Text = $"¶‚Ü‚ê‚Ä‚©‚ç{ts.Days}“ú–Ú‚Å‚·B";
         }
     }
 }
