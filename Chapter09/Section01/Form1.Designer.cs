@@ -41,6 +41,8 @@
             label7 = new Label();
             label8 = new Label();
             label9 = new Label();
+            tbOut4 = new TextBox();
+            label10 = new Label();
             ((System.ComponentModel.ISupportInitialize)nudDay).BeginInit();
             SuspendLayout();
             // 
@@ -148,7 +150,7 @@
             // 
             // tbOut3
             // 
-            tbOut3.Location = new Point(608, 362);
+            tbOut3.Location = new Point(608, 469);
             tbOut3.Multiline = true;
             tbOut3.Name = "tbOut3";
             tbOut3.Size = new Size(447, 160);
@@ -193,12 +195,28 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(608, 327);
+            label9.Location = new Point(608, 416);
             label9.Name = "label9";
             label9.Size = new Size(49, 32);
             label9.TabIndex = 4;
             label9.Text = "メモ";
             label9.Click += label9_Click;
+            // 
+            // tbOut4
+            // 
+            tbOut4.Location = new Point(608, 365);
+            tbOut4.Name = "tbOut4";
+            tbOut4.Size = new Size(447, 39);
+            tbOut4.TabIndex = 2;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(608, 330);
+            label10.Name = "label10";
+            label10.Size = new Size(235, 32);
+            label10.TabIndex = 4;
+            label10.Text = "次の誕生日までの日数";
             // 
             // Form1
             // 
@@ -207,6 +225,7 @@
             ClientSize = new Size(2004, 1250);
             Controls.Add(btBirthCalc);
             Controls.Add(label9);
+            Controls.Add(label10);
             Controls.Add(label8);
             Controls.Add(label7);
             Controls.Add(label6);
@@ -217,6 +236,7 @@
             Controls.Add(label1);
             Controls.Add(nudDay);
             Controls.Add(tbOut3);
+            Controls.Add(tbOut4);
             Controls.Add(tbOut2);
             Controls.Add(tbOut);
             Controls.Add(btGet);
@@ -250,5 +270,7 @@
         private Label label7;
         private Label label8;
         private Label label9;
+        private TextBox tbOut4;
+        private Label label10;
     }
 }
