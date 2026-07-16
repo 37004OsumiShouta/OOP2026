@@ -35,6 +35,7 @@ namespace CarReportSystem {
 
             };
             listCarReports.Add(carReport);
+            SetCbAutor(cbAuthor.Text);
             ImputItemsAllClear();
         }
         private MakerGroup GetRadioButtonMaker() {
@@ -78,12 +79,52 @@ namespace CarReportSystem {
             pbPicture.Image = null;
         }
 
+
         private void dgvRecords_Click(object sender, EventArgs e) {
+
+            if (dgvRecords.CurrentRow is null) return;
+
             dtpDate.Value = (DateTime)dgvRecords.CurrentRow.Cells["Date"].Value;
             cbAuthor.Text = (string)dgvRecords.CurrentRow.Cells["Author"].Value;
+            SetRadioButtonMaker((MakerGroup)dgvRecords.CurrentRow.Cells["Maker"].Value);
             cbCarName.Text = (string)dgvRecords.CurrentRow.Cells["CarName"].Value;
             tbReport.Text = (string)dgvRecords.CurrentRow.Cells["Report"].Value;
             pbPicture.Image = (Image)dgvRecords.CurrentRow.Cells["Picture"].Value;
         }
+        private void SetRadioButtonMaker(MakerGroup targetMaker) {
+            switch ((targetMaker)) {
+                case MakerGroup.トヨタ:
+                    rbToyota.Checked = true;
+                    break;
+                case MakerGroup.ニッサン:
+                    rbNissan.Checked = true;
+                    break;
+                case MakerGroup.ホンダ:
+                    rbHonda.Checked = true;
+                    break;
+                case MakerGroup.スバル:
+                    rbSubaru.Checked = true;
+                    break;
+                case MakerGroup.輸入車:
+                    rbInport.Checked = true;
+                    break;
+                default:
+                    rbOther.Checked = true;
+                    break;
+            }
+        }
+
+        //記録者の入力履歴をコンボボックスへ登録（重複なし）
+        private void SetCbAutor(string autor) {
+            if (!cbAuthor.Items.Contains(autor))
+                cbAuthor.Items.Add(autor);
+
+            }
+        //車名の入力履歴をコンボボックスへ登録（重複なし）
+        private void SetCbCarName(string carName) {
+            if (!cbCarName.Items.Contains(carName))
+                cbCarName.Items.Add(carName);
+        }
     }
 }
+    

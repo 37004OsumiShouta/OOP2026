@@ -238,7 +238,7 @@
             // dgvRecords
             // 
             dgvRecords.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvRecords.Location = new Point(125, 461);
+            dgvRecords.Location = new Point(125, 572);
             dgvRecords.Name = "dgvRecords";
             dgvRecords.Size = new Size(474, 288);
             dgvRecords.TabIndex = 6;
@@ -248,7 +248,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Yu Gothic UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            label6.Location = new Point(30, 461);
+            label6.Location = new Point(30, 572);
             label6.Name = "label6";
             label6.Size = new Size(62, 32);
             label6.TabIndex = 0;
@@ -318,7 +318,7 @@
             btAddRecord.BackColor = SystemColors.ActiveCaption;
             btAddRecord.Font = new Font("Yu Gothic UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             btAddRecord.ForeColor = SystemColors.ActiveCaptionText;
-            btAddRecord.Location = new Point(648, 461);
+            btAddRecord.Location = new Point(629, 499);
             btAddRecord.Name = "btAddRecord";
             btAddRecord.Size = new Size(81, 81);
             btAddRecord.TabIndex = 11;
@@ -330,7 +330,7 @@
             // 
             btModifyRecord.BackColor = SystemColors.Info;
             btModifyRecord.Font = new Font("Yu Gothic UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            btModifyRecord.Location = new Point(802, 461);
+            btModifyRecord.Location = new Point(792, 499);
             btModifyRecord.Name = "btModifyRecord";
             btModifyRecord.Size = new Size(81, 81);
             btModifyRecord.TabIndex = 12;
@@ -342,7 +342,7 @@
             btDeleteRecord.BackColor = Color.Black;
             btDeleteRecord.Font = new Font("Yu Gothic UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             btDeleteRecord.ForeColor = SystemColors.ControlLightLight;
-            btDeleteRecord.Location = new Point(966, 461);
+            btDeleteRecord.Location = new Point(965, 499);
             btDeleteRecord.Name = "btDeleteRecord";
             btDeleteRecord.Size = new Size(81, 81);
             btDeleteRecord.TabIndex = 13;
@@ -354,7 +354,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { ファイルFToolStripMenuItem, ヘルプHToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1229, 24);
+            menuStrip1.Size = new Size(1448, 24);
             menuStrip1.TabIndex = 14;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -422,9 +422,9 @@
             // statusStrip1
             // 
             statusStrip1.Items.AddRange(new ToolStripItem[] { tsslbMessage });
-            statusStrip1.Location = new Point(0, 796);
+            statusStrip1.Location = new Point(0, 861);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(1229, 22);
+            statusStrip1.Size = new Size(1448, 22);
             statusStrip1.TabIndex = 15;
             statusStrip1.Text = "statusStrip1";
             // 
@@ -441,7 +441,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1229, 818);
+            ClientSize = new Size(1448, 883);
             Controls.Add(statusStrip1);
             Controls.Add(btDeleteRecord);
             Controls.Add(btModifyRecord);
