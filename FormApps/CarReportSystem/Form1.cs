@@ -36,6 +36,7 @@ namespace CarReportSystem {
             };
             listCarReports.Add(carReport);
             SetCbAutor(cbAuthor.Text);
+            SetCbCarName(cbCarName.Text);
             ImputItemsAllClear();
         }
         private MakerGroup GetRadioButtonMaker() {
@@ -119,11 +120,15 @@ namespace CarReportSystem {
             if (!cbAuthor.Items.Contains(autor))
                 cbAuthor.Items.Add(autor);
 
-            }
+        }
         //車名の入力履歴をコンボボックスへ登録（重複なし）
         private void SetCbCarName(string carName) {
             if (!cbCarName.Items.Contains(carName))
                 cbCarName.Items.Add(carName);
+        }
+
+        private void Form1_Load(object sender, EventArgs e) {
+
         }
     }
 }
