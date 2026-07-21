@@ -16,7 +16,7 @@ namespace CarReportSystem {
 
             //*****************************
             //ここに記録者と車名が未入力だった場合の処理を記述する
-            if (cbAuthor.Text == String.Empty && cbCarName.Text == String.Empty) {
+            if (cbAuthor.Text == String.Empty || cbCarName.Text == String.Empty) {
                 tsslbMessage.Text = "記録者、または車名が未入力です";
                 return;
 
@@ -85,7 +85,6 @@ namespace CarReportSystem {
 
             if (dgvRecords.CurrentRow is null) return;
 
-            dtpDate.Value = (DateTime)dgvRecords.CurrentRow.Cells["Date"].Value;
             cbAuthor.Text = (string)dgvRecords.CurrentRow.Cells["Author"].Value;
             SetRadioButtonMaker((MakerGroup)dgvRecords.CurrentRow.Cells["Maker"].Value);
             cbCarName.Text = (string)dgvRecords.CurrentRow.Cells["CarName"].Value;
@@ -123,12 +122,24 @@ namespace CarReportSystem {
         }
         //車名の入力履歴をコンボボックスへ登録（重複なし）
         private void SetCbCarName(string carName) {
+            //未登録なら登録
             if (!cbCarName.Items.Contains(carName))
                 cbCarName.Items.Add(carName);
         }
 
         private void Form1_Load(object sender, EventArgs e) {
 
+        }
+
+        private void btDeletePicture_Click(object sender, EventArgs e) {
+            pbPicture.Image = null;
+        }
+        //選択されているインデックスを取得
+
+        //削除したいインデックスを指定してリストから削除
+        private void btDeleteRecord_Click(object sender, EventArgs e) {
+            if (dgvRecords.CurrentRow is null) return;
+            listCarReports.RemoveAt(dgvRecords.CurrentRow.Index);
         }
     }
 }
