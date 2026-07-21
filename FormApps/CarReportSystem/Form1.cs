@@ -136,10 +136,18 @@ namespace CarReportSystem {
         }
         //選択されているインデックスを取得
 
+
         //削除したいインデックスを指定してリストから削除
         private void btDeleteRecord_Click(object sender, EventArgs e) {
             if (dgvRecords.CurrentRow is null) return;
             listCarReports.RemoveAt(dgvRecords.CurrentRow.Index);
+        }
+
+        private void btModifyRecord_Click(object sender, EventArgs e) {
+            if (dgvRecords.CurrentRow is null) return;
+            
+
+            dgvRecords.Refresh();
         }
     }
 }
