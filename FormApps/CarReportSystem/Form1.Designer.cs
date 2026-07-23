@@ -250,7 +250,6 @@
             dgvRecords.Size = new Size(474, 288);
             dgvRecords.TabIndex = 6;
             dgvRecords.SelectionChanged += dgvRecords_SelectionChanged;
-            dgvRecords.Click += dgvRecords_Click;
             // 
             // label6
             // 

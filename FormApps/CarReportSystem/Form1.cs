@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Drawing;
+using System.Dynamic;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using static CarReportSystem.CarReport;
@@ -23,27 +24,25 @@ namespace CarReportSystem {
             if (cbAuthor.Text == String.Empty || cbCarName.Text == String.Empty) {
                 tsslbMessage.Text = "記録者、または車名が未入力です";
                 return;
-
             }
             //*****************************
 
             var carReport = new CarReport {
-                Date = dtpDate.Value,
-                Author = cbAuthor.Text,
+                Date = dtpDate.Value.Date,
+                Author = cbAuthor.Text.Trim(),
                 Maker = GetRadioButtonMaker(),
-                CarName = cbCarName.Text,
+                CarName = cbCarName.Text.Trim(),
                 Report = tbReport.Text,
                 Picture = pbPicture.Image,
-
-
-
             };
+
             listCarReports.Add(carReport);
-            SetCbAutor(cbAuthor.Text);
-            SetCbCarName(cbCarName.Text);
+            //入力履歴を登録
+            SetCbAutor(cbAuthor.Text.Trim());
+            SetCbCarName(cbCarName.Text.Trim());
 
             dgvRecords.CurrentRow.Selected = false;
-            ImputItemsUpdate();
+            InputItemsUpdate();
         }
         private MakerGroup GetRadioButtonMaker() {
             if (rbToyota.Checked)
@@ -74,10 +73,10 @@ namespace CarReportSystem {
         }
 
         private void btNewInput_Click(object sender, EventArgs e) {
-            ImputItemsAllClear();
+            InputItemsAllClear();
         }
 
-        private void ImputItemsAllClear() {
+        private void InputItemsAllClear() {
             dtpDate.Value = DateTime.Today;
             cbAuthor.Text = string.Empty;
             cbCarName.Text = string.Empty;
@@ -85,22 +84,9 @@ namespace CarReportSystem {
             rbOther.Checked = true;
             pbPicture.Image = null;
 
-            dgvRecords.CurrentRow.Selected = false;
+            dgvRecords.ClearSelection(); //セルの選択を解除する
         }
 
-
-        private void dgvRecords_Click(object sender, EventArgs e) {
-
-            //if ((dgvRecords.CurrentRow is null)
-            // || (!dgvRecords.CurrentRow.Selected)) return;
-
-            //cbAuthor.Text = (string)dgvRecords.CurrentRow.Cells["Author"].Value;
-            //SetRadioButtonMaker((MakerGroup)dgvRecords.CurrentRow.Cells["Maker"].Value);
-            //cbCarName.Text = (string)dgvRecords.CurrentRow.Cells["CarName"].Value;
-            //tbReport.Text = (string)dgvRecords.CurrentRow.Cells["Report"].Value;
-            //pbPicture.Image = (Image)dgvRecords.CurrentRow.Cells["Picture"].Value;
-            //ImputItemsUpdate();
-        }
         private void SetRadioButtonMaker(MakerGroup targetMaker) {
             switch ((targetMaker)) {
                 case MakerGroup.トヨタ:
@@ -154,31 +140,53 @@ namespace CarReportSystem {
             listCarReports.RemoveAt(dgvRecords.CurrentRow.Index);
         }
 
-        private void ImputItemsUpdate() {
+        private void InputItemsUpdate() {
             if (!dgvRecords.CurrentRow.Selected)
-                ImputItemsAllClear();
+                InputItemsAllClear();
         }
 
         private void btModifyRecord_Click(object sender, EventArgs e) {
-            dgvRecords.CurrentRow.Cells["Author"].Value = cbAuthor.Text;
+            if (dgvRecords.SelectedRows.Count == 0) {
+                tsslbMessage.Text = "修正するレポートを選択してください";
+            }
+            if(String.IsNullOrWhiteSpace(cbAuthor.Text)
+                || String.IsNullOrWhiteSpace(cbCarName.Text)){
+                tsslbMessage.Text = "記録者，または車名が未入力です";
+            }
+
+            //カーレポート管理用リストの該当する要素のデータを書き換える
+            dgvRecords.CurrentRow.Cells["Author"].Value = cbAuthor.Text.Trim();
             dgvRecords.CurrentRow.Cells["Maker"].Value = GetRadioButtonMaker();
-            dgvRecords.CurrentRow.Cells["CarName"].Value = cbCarName.Text;
+            dgvRecords.CurrentRow.Cells["CarName"].Value = cbCarName.Text.Trim();
             dgvRecords.CurrentRow.Cells["Report"].Value = tbReport.Text;
             dgvRecords.CurrentRow.Cells["Picture"].Value = pbPicture.Image;
 
+            SetCbAutor(cbAuthor.Text.Trim());
+            SetCbCarName(cbCarName.Text.Trim());
+
+
             dgvRecords.Refresh();
+            tsslbMessage.Text = "レポートを修正しました。";
         }
 
         private void dgvRecords_SelectionChanged(object sender, EventArgs e) {
-            if ((dgvRecords.CurrentRow is null)
+            if ((dgvRecords.CurrentRow?.DataBoundItem is not CarReport carReport)
                  || (!dgvRecords.CurrentRow.Selected)) return;
 
-            cbAuthor.Text = (string)dgvRecords.CurrentRow.Cells["Author"].Value;
-            SetRadioButtonMaker((MakerGroup)dgvRecords.CurrentRow.Cells["Maker"].Value);
-            cbCarName.Text = (string)dgvRecords.CurrentRow.Cells["CarName"].Value;
-            tbReport.Text = (string)dgvRecords.CurrentRow.Cells["Report"].Value;
-            pbPicture.Image = (Image)dgvRecords.CurrentRow.Cells["Picture"].Value;
-            ImputItemsUpdate();     //データグリッドビューを更新したら呼ぶメソッド
+
+
+
+
+
+
+
+            dtpDate.Value = carReport.Date;
+            cbAuthor.Text = carReport.Author;
+            SetRadioButtonMaker(carReport.Maker);
+            cbCarName.Text = carReport.CarName;
+            tbReport.Text = carReport.Report;
+            pbPicture.Image = (carReport.Picture);
+            InputItemsUpdate();     //データグリッドビューを更新したら呼ぶメソッド
         }
 
         private void 終了ToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -188,6 +196,6 @@ namespace CarReportSystem {
         private void 色設定ToolStripMenuItem_Click(object sender, EventArgs e) {
             cdColor.ShowDialog();
             BackColor = cdColor.Color;
-            }
         }
     }
+}
