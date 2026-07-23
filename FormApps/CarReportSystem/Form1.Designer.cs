@@ -234,14 +234,21 @@
             tbReport.Name = "tbReport";
             tbReport.Size = new Size(373, 123);
             tbReport.TabIndex = 5;
+            tbReport.TabStop = false;
             // 
             // dgvRecords
             // 
+            dgvRecords.AllowUserToAddRows = false;
+            dgvRecords.AllowUserToDeleteRows = false;
             dgvRecords.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvRecords.Location = new Point(125, 572);
+            dgvRecords.Location = new Point(113, 572);
+            dgvRecords.MultiSelect = false;
             dgvRecords.Name = "dgvRecords";
+            dgvRecords.ReadOnly = true;
+            dgvRecords.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvRecords.Size = new Size(474, 288);
             dgvRecords.TabIndex = 6;
+            dgvRecords.SelectionChanged += dgvRecords_SelectionChanged;
             dgvRecords.Click += dgvRecords_Click;
             // 
             // label6
@@ -342,6 +349,7 @@
             // btDeleteRecord
             // 
             btDeleteRecord.BackColor = Color.Black;
+            btDeleteRecord.FlatStyle = FlatStyle.Flat;
             btDeleteRecord.Font = new Font("Yu Gothic UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             btDeleteRecord.ForeColor = SystemColors.ControlLightLight;
             btDeleteRecord.Location = new Point(965, 499);
