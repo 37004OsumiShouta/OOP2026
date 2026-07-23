@@ -3,6 +3,8 @@ using System.Drawing;
 using System.Dynamic;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using System.Xml;
+using System.Xml.Serialization;
 using static CarReportSystem.CarReport;
 
 namespace CarReportSystem {
@@ -10,6 +12,8 @@ namespace CarReportSystem {
         //カーレポート管理用リスト
         BindingList<CarReport> listCarReports = new BindingList<CarReport>();
 
+        //設定クラスのオブジェクトを生成
+        Settings settings = new Settings();
         public Form1() {
             InitializeComponent();
             dgvRecords.DataSource = listCarReports;
@@ -149,8 +153,8 @@ namespace CarReportSystem {
             if (dgvRecords.SelectedRows.Count == 0) {
                 tsslbMessage.Text = "修正するレポートを選択してください";
             }
-            if(String.IsNullOrWhiteSpace(cbAuthor.Text)
-                || String.IsNullOrWhiteSpace(cbCarName.Text)){
+            if (String.IsNullOrWhiteSpace(cbAuthor.Text)
+                || String.IsNullOrWhiteSpace(cbCarName.Text)) {
                 tsslbMessage.Text = "記録者，または車名が未入力です";
             }
 
@@ -196,6 +200,15 @@ namespace CarReportSystem {
         private void 色設定ToolStripMenuItem_Click(object sender, EventArgs e) {
             cdColor.ShowDialog();
             BackColor = cdColor.Color;
+        }
+        //フォームを閉じたら呼ばれるイベントハンドラ
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e) {
+            //設定ファイルへ色情報を保存する処理（シリアル化）
+            //P283以降を参考にする（ファイル名：setting.xml)
+            using (var writer = XmlWriter.Create("settings.xml")) {
+                var serialize = new XmlSerializer(settings.GetType());
+                serialize.Serialize(writer, settings);
+            }
         }
     }
 }
