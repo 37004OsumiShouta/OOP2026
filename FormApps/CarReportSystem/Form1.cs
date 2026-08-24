@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Dynamic;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using System.Xml;
@@ -20,7 +21,7 @@ namespace CarReportSystem {
             dgvRecords.DataSource = listCarReports;
         }
 
-        private void Form1_Load (object sender, EventArgs e) {
+        private void Form1_Load(object sender, EventArgs e) {
             if (File.Exists("settings.xml")) {
                 try {
                     using (var reader = XmlReader.Create("settings.xml")) {
@@ -29,13 +30,6 @@ namespace CarReportSystem {
 
                         BackColor = Color.FromArgb(settings.MainFormBackColor);
                     }
-
-
-
-
-
-
-
                 }
                 catch (Exception ex) {
                     tsslbMessage.Text = "設定ファイル読み込みエラー";
@@ -201,13 +195,6 @@ namespace CarReportSystem {
             if ((dgvRecords.CurrentRow?.DataBoundItem is not CarReport carReport)
                  || (!dgvRecords.CurrentRow.Selected)) return;
 
-
-
-
-
-
-
-
             dtpDate.Value = carReport.Date;
             cbAuthor.Text = carReport.Author;
             SetRadioButtonMaker(carReport.Maker);
@@ -226,7 +213,7 @@ namespace CarReportSystem {
                 BackColor = cdColor.Color;
 
                 settings.MainFormBackColor = cdColor.Color.ToArgb();
-        }
+            }
         }
         //フォームを閉じたら呼ばれるイベントハンドラ
         private void Form1_FormClosed(object sender, FormClosedEventArgs e) {
@@ -236,6 +223,28 @@ namespace CarReportSystem {
                 var serialize = new XmlSerializer(settings.GetType());
                 serialize.Serialize(writer, settings);
             }
+        }
+
+        private void 保存ToolStripMenuItem_Click(object sender, EventArgs e) {
+            reportSaveFile();
+        }
+        //ファイルセーブ処理
+        private void reportSaveFile() {
+            if (sfdReportFileSave.ShowDialog() == DialogResult.OK) {
+                try {
+#pragma warning disable SYSLIB0011
+                    var bf = new BinaryFormatter();
+#pragma warning restore SYSLIB0011
+
+                }
+                catch (Exception ex) {
+                    tsslbMessage.Text = "ファイル書き出しエラー";
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+        private void reportOpenFile() {
+
         }
     }
 }
