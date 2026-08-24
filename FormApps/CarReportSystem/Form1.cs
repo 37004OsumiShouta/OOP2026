@@ -235,7 +235,12 @@ namespace CarReportSystem {
 #pragma warning disable SYSLIB0011
                     var bf = new BinaryFormatter();
 #pragma warning restore SYSLIB0011
-
+                    using (FileStream fs = File.Open(
+                        sfdReportFileSave.FileName,
+                        FileMode.Create
+                        )) {
+                        bf.Serialize(fs, listCarReports);
+                    }
                 }
                 catch (Exception ex) {
                     tsslbMessage.Text = "ファイル書き出しエラー";

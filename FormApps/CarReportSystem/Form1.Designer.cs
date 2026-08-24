@@ -458,9 +458,6 @@
             // 
             cdColor.Color = Color.Yellow;
             // 
-            // sfdReportFileSave
-            // 
-            // 
             // ofdReportFileDialog
             // 
             ofdReportFileDialog.FileName = "openFileDialog1";
