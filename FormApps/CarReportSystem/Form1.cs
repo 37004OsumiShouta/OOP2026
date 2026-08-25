@@ -95,11 +95,9 @@ namespace CarReportSystem {
                 pbPicture.Image = Image.FromFile(ofdPicFileOpen.FileName);
             }
         }
-
         private void btNewInput_Click(object sender, EventArgs e) {
             InputItemsAllClear();
         }
-
         private void InputItemsAllClear() {
             dtpDate.Value = DateTime.Today;
             cbAuthor.Text = string.Empty;
@@ -107,10 +105,8 @@ namespace CarReportSystem {
             tbReport.Text = string.Empty;
             rbOther.Checked = true;
             pbPicture.Image = null;
-
             dgvRecords.ClearSelection(); //セルの選択を解除する
         }
-
         private void SetRadioButtonMaker(MakerGroup targetMaker) {
             switch ((targetMaker)) {
                 case MakerGroup.トヨタ:
@@ -138,8 +134,8 @@ namespace CarReportSystem {
         private void SetCbAutor(string autor) {
             if (!cbAuthor.Items.Contains(autor))
                 cbAuthor.Items.Add(autor);
-
         }
+
         //車名の入力履歴をコンボボックスへ登録（重複なし）
         private void SetCbCarName(string carName) {
             //未登録なら登録
@@ -147,18 +143,22 @@ namespace CarReportSystem {
                 cbCarName.Items.Add(carName);
         }
 
-
         private void btDeletePicture_Click(object sender, EventArgs e) {
             pbPicture.Image = null;
         }
         //選択されているインデックスを取得
-
-
-        //削除したいインデックスを指定してリストから削除
         private void btDeleteRecord_Click(object sender, EventArgs e) {
             if ((dgvRecords.CurrentRow is null)
                 || (!dgvRecords.CurrentRow.Selected)) return;
-            listCarReports.RemoveAt(dgvRecords.CurrentRow.Index);
+
+            //削除したいインデックスを指定してリストから削除
+            if(dgvRecords.CurrentRow?.DataBoundItem is not CarReport carReport) {
+                tsslbMessage.Text = "削除するレポートを選択してください";
+                return;
+            }
+            listCarReports.Remove(carReport);
+
+            InputItemsUpdate();
         }
 
         private void InputItemsUpdate() {
@@ -173,6 +173,11 @@ namespace CarReportSystem {
             if (String.IsNullOrWhiteSpace(cbAuthor.Text)
                 || String.IsNullOrWhiteSpace(cbCarName.Text)) {
                 tsslbMessage.Text = "記録者，または車名が未入力です";
+            }
+
+            if (dgvRecords.CurrentRow?.DataBoundItem is not CarReport carReport) {
+                tsslbMessage.Text = "修正するレポートを選択してください";
+                return;
             }
 
             //カーレポート管理用リストの該当する要素のデータを書き換える
