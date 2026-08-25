@@ -158,7 +158,7 @@ namespace CarReportSystem {
         }
 
         private void InputItemsUpdate() {
-            if (!dgvRecords.CurrentRow.Selected)
+            if (dgvRecords.CurrentRowÅ@is null || !dgvRecords.CurrentRow.Selected)
                 InputItemsAllClear();
         }
 
