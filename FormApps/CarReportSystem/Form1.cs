@@ -1,10 +1,5 @@
 using System.ComponentModel;
-using System.Diagnostics.Eventing.Reader;
-using System.Drawing;
-using System.Dynamic;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using System.Xml;
 using System.Xml.Serialization;
 using static CarReportSystem.CarReport;
