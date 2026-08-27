@@ -19,27 +19,16 @@ namespace CarReportSystem {
         }
 
         private void Form1_Load(object sender, EventArgs e) {
-            if (File.Exists("settings.xml")) {
-                try {
-                    using (var reader = XmlReader.Create("settings.xml")) {
-                        var serializer = new XmlSerializer(typeof(Settings));
-
-                        //settings = serializer.Deserialize(reader) as Settings;
-                        if (serializer.Deserialize(reader) is Settings loadedSettings) {
-                            settings = loadedSettings;
-                            //背景色設定
-                            BackColor = Color.FromArgb(Settings.Instance.MainFormBackColor);
-                        }
-                    }
-                }
-                catch (Exception ex) {
-                    tsslbMessage.Text = "設定ファイル読み込みエラー";
-                    MessageBox.Show(ex.Message);
-                }
-            } else {
-                tsslbMessage.Text = "設定ファイルがありません";
+            try {
+                Settings.Instance.Load();
+                BackColor = Color.FromArgb(Settings.Instance.MainFormBackColor);
+            }
+            catch (Exception ex) {
+                tsslbMessage.Text = "設定ファイル読み込みエラー";
+                MessageBox.Show(ex.Message);
             }
         }
+
         //追加ボタンイベントハンドラ
         private void btAddRecord_Click(object sender, EventArgs e) {
             tsslbMessage.Text = String.Empty;  //メッセージ領域のクリア
@@ -225,11 +214,8 @@ namespace CarReportSystem {
         private void Form1_FormClosed(object sender, FormClosedEventArgs e) {
             //設定ファイルへ色情報を保存する処理（シリアル化）
             //P283以降を参考にする（ファイル名：setting.xml)
-            using (var writer = XmlWriter.Create("settings.xml")) {
-                var serialize = new XmlSerializer(Settings.Instance.GetType());
-                serialize.Serialize(writer, Settings.Instance);
+            Settings.Instance.Save();
             }
-        }
 
         private void 保存ToolStripMenuItem_Click(object sender, EventArgs e) {
             reportSaveFile();
