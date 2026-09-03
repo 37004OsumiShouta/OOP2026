@@ -100,7 +100,7 @@ public partial class Form1 : Form
         
         dgvProducts.ClearSelection();
         ClearInput();
-        tsslMessage.Text = "入力欄をクリアしました。";
+        tsslMessage.Text = "入力欄をクリアしました。"; 
     }
 
     private void dgvProducts_SelectionChanged(object sender, EventArgs e)
