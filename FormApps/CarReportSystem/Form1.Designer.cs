@@ -322,6 +322,7 @@
             pbPicture.SizeMode = PictureBoxSizeMode.StretchImage;
             pbPicture.TabIndex = 10;
             pbPicture.TabStop = false;
+            pbPicture.Click += pbPicture_Click;
             // 
             // btAddRecord
             // 

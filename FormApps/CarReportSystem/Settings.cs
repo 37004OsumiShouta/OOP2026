@@ -7,7 +7,7 @@ namespace CarReportSystem {
         private const string FileName = "setting.xml";
 
         //唯一のSettingオブジェクト
-        private static readonly Settings _instance = new Settings();
+        private static  Settings _instance = new();
 
         //メイン画面に設定した色情報
         public int MainFormBackColor { get; set; }
@@ -44,9 +44,8 @@ namespace CarReportSystem {
             serializer.Serialize(writer, data);
         }
     }
-        //XML保存用クラス
-        public class SettingsData {
-            public int MainFormBackColor { get; set; }
-
-        }
+    //XML保存用クラス
+    public class SettingsData {
+        public int MainFormBackColor { get; set; }
     }
+}

@@ -143,7 +143,7 @@ namespace CarReportSystem {
                 || (!dgvRecords.CurrentRow.Selected)) return;
 
             //削除したいインデックスを指定してリストから削除
-            if(dgvRecords.CurrentRow?.DataBoundItem is not CarReport carReport) {
+            if (dgvRecords.CurrentRow?.DataBoundItem is not CarReport carReport) {
                 tsslbMessage.Text = "削除するレポートを選択してください";
                 return;
             }
@@ -153,7 +153,7 @@ namespace CarReportSystem {
         }
 
         private void InputItemsUpdate() {
-            if (dgvRecords.CurrentRow　is null || !dgvRecords.CurrentRow.Selected)
+            if (dgvRecords.CurrentRow is null || !dgvRecords.CurrentRow.Selected)
                 InputItemsAllClear();
         }
 
@@ -215,7 +215,7 @@ namespace CarReportSystem {
             //設定ファイルへ色情報を保存する処理（シリアル化）
             //P283以降を参考にする（ファイル名：setting.xml)
             Settings.Instance.Save();
-            }
+        }
 
         private void 保存ToolStripMenuItem_Click(object sender, EventArgs e) {
             reportSaveFile();
@@ -262,7 +262,7 @@ namespace CarReportSystem {
                     cbAuthor.Items.Clear();
                     cbCarName.Items.Clear();
                     //コンボボックスの履歴を再登録
-                    foreach (var report in listCarReports) { 
+                    foreach (var report in listCarReports) {
                         SetCbAutor(report.Author);
                         SetCbCarName(report.CarName);
                     }
@@ -272,6 +272,10 @@ namespace CarReportSystem {
                     MessageBox.Show(ex.Message);
                 }
             }
+        }
+
+        private void pbPicture_Click(object sender, EventArgs e) {
+
         }
     }
 }

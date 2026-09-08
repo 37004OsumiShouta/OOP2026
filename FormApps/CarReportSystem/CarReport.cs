@@ -1,6 +1,6 @@
 ﻿namespace CarReportSystem {
     [Serializable]
-    internal class CarReport {
+    public class CarReport {
         public enum MakerGroup {
             なし,
             トヨタ,
@@ -10,6 +10,7 @@
             輸入車,
             その他,
         }
+        public int Id { get; set; } //Id
         [System.ComponentModel.DisplayName("日付")]
         public DateTime Date { get; set; } //日付
         [System.ComponentModel.DisplayName("記録者")]
