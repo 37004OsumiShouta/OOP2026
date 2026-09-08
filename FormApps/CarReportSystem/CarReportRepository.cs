@@ -28,7 +28,7 @@ public class CarReportRepository {
         command.CommandText =
             """
             SELECT Id, Data, Autor, Maker, CarName, Report, Picture
-            FROM CarReports
+            FROM CarReport
             ORDER BY Id;
             """;
 
@@ -69,7 +69,7 @@ public class CarReportRepository {
         command.CommandText =
             """
             
-            INSERT INTO CarReports
+            INSERT INTO CarReport
 
             (Date, Author, Maker, CarName, Report, Picture)
 
@@ -110,7 +110,7 @@ public class CarReportRepository {
 
         command.CommandText =
             """
-            UPDATE CarReports
+            UPDATE CarReport
             SET Date = $date, Author = $author, Maker = $maker,
             CarName = $carName, Report = $report, Picture = $picture
             WHERE Id = $id;
@@ -120,7 +120,7 @@ public class CarReportRepository {
         command.Parameters.AddWithValue("maker", carReport.Maker);
         command.Parameters.AddWithValue("carName", carReport.CarName);
         command.Parameters.AddWithValue("report", carReport.Report);
-        command.Parameters.AddWithValue("picture", carReport.Picture);
+        command.Parameters.AddWithValue("picture", ImageToBytes(carReport.Picture));
 
         if (command.ExecuteNonQuery() == 0)
             throw new InvalidOperationException("修正対象の商品が見つかりませんでした。");
@@ -134,7 +134,7 @@ public class CarReportRepository {
 
         command.CommandText =
             """
-            DELETE FROM CarReports
+            DELETE FROM CarReport
             WHERE Id = $id;
             """;
         command.Parameters.AddWithValue("$id", carReport.Id);
@@ -143,7 +143,7 @@ public class CarReportRepository {
         if (command.ExecuteNonQuery() == 0)
             throw new InvalidOperationException("削除対象の商品が見つかりませんでした。");
     }
-    private static byte[] ImageToBytes(Image? image) {
+    private static byte[]? ImageToBytes(Image? image) {
         if (image is null) return null;
 
         using var stream = new MemoryStream();
