@@ -27,7 +27,7 @@ public class CarReportRepository {
         // Productsテーブルを作るSQL
         command.CommandText =
             """
-            SELECT Id, Data, Autor, Maker, CarName, Report, Picture
+            SELECT Id, Date, Author, Maker, CarName, Report, Picture
             FROM CarReport
             ORDER BY Id;
             """;
@@ -47,7 +47,7 @@ public class CarReportRepository {
                 CarName = reader.GetString(4),
                 Report = reader.GetString(5),
                 Picture = reader.IsDBNull(6)
-                ? null: BytesToImage(reader.GetFieldValue<byte[]>(6))
+                ? null : BytesToImage(reader.GetFieldValue<byte[]>(6))
             });
         }
         return carReports;
@@ -55,7 +55,7 @@ public class CarReportRepository {
     }
     //商品を1件追加する。Create(INSERT)に相当する
     //戻り値として自動採番されたIdを返す
-    public int Add(DateTime date, string autor,DateTime maker, string carName,string report,  Image picture) {
+    public int Add(CarReport carReport) {
         //接続オブジェクトを生成する。
         using var connection = Database.GetConnection();
 
@@ -81,12 +81,20 @@ public class CarReportRepository {
                         
             
             """;
-        command.Parameters.AddWithValue("$date", date);
-        command.Parameters.AddWithValue("$autor", autor);
-        command.Parameters.AddWithValue("$maker", maker);
-        command.Parameters.AddWithValue("$carName", carName);
-        command.Parameters.AddWithValue("$report", report);
-        command.Parameters.AddWithValue("$picture", picture);
+        command.Parameters.AddWithValue("$date", carReport.Date.ToString("yyyy-MM-dd",CultureInfo.InvariantCulture));
+        command.Parameters.AddWithValue("$author", carReport.Author);
+        command.Parameters.AddWithValue("$maker", carReport.Maker);
+        command.Parameters.AddWithValue("$carName",carReport.CarName);
+        command.Parameters.AddWithValue("$report", carReport.Report);
+        byte[]? pictureData = ImageToBytes(carReport.Picture);
+        var pictureParameter = command.Parameters.Add("$picture", SqliteType.Blob);
+        if(pictureData is not null) {
+            pictureParameter.Value = pictureData;
+        } else {
+            pictureParameter.Value = DBNull.Value;
+        }
+
+
         //一つの値を返すSQLを実行する
         var result = command.ExecuteScalar();
 
@@ -115,12 +123,13 @@ public class CarReportRepository {
             CarName = $carName, Report = $report, Picture = $picture
             WHERE Id = $id;
             """;
-        command.Parameters.AddWithValue("$data", carReport.Date);
-        command.Parameters.AddWithValue("$autor", carReport.Author);
-        command.Parameters.AddWithValue("maker", carReport.Maker);
+        command.Parameters.AddWithValue("$date", carReport.Date.ToString("yyyy-MM-dd"));
+        command.Parameters.AddWithValue("$author", carReport.Author);
+        command.Parameters.AddWithValue("maker", (int)carReport.Maker);
         command.Parameters.AddWithValue("carName", carReport.CarName);
         command.Parameters.AddWithValue("report", carReport.Report);
-        command.Parameters.AddWithValue("picture", ImageToBytes(carReport.Picture));
+        command.Parameters.AddWithValue("picture", (object?)ImageToBytes(carReport.Picture)?? DBNull.Value);
+        command.Parameters.AddWithValue("$id", carReport.Id);
 
         if (command.ExecuteNonQuery() == 0)
             throw new InvalidOperationException("修正対象の商品が見つかりませんでした。");
@@ -144,15 +153,19 @@ public class CarReportRepository {
             throw new InvalidOperationException("削除対象の商品が見つかりませんでした。");
     }
     private static byte[]? ImageToBytes(Image? image) {
-        if (image is null) return null;
+        if (image is null) 
+            return null;
 
         using var stream = new MemoryStream();
-        image.Save(stream, image.RawFormat);
+
+        using var bitmap = new Bitmap(image);
+        bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+
         return stream.ToArray();
     }
 
-    private static Image BytesToImage(byte[] data) {
-        using var stream = new MemoryStream(data);
+    private static Image BytesToImage(byte[] date) {
+        using var stream = new MemoryStream(date);
         using var image = Image.FromStream(stream);
         // MemoryStream破棄後も利用できるようBitmapとしてコピーする。
         return new Bitmap(image);

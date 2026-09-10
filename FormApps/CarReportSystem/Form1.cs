@@ -1,3 +1,4 @@
+using SQLiteProductSample;
 using System.ComponentModel;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml;
@@ -8,6 +9,8 @@ namespace CarReportSystem {
     public partial class Form1 : Form {
         //カーレポート管理用リスト
         BindingList<CarReport> listCarReports = new BindingList<CarReport>();
+
+        CarReportRepository repository = new CarReportRepository();
 
         //設定クラスのオブジェクトを生成
 
@@ -22,6 +25,12 @@ namespace CarReportSystem {
             try {
                 Settings.Instance.Load();
                 BackColor = Color.FromArgb(Settings.Instance.MainFormBackColor);
+
+                listCarReports.Clear();
+
+                foreach (var report in CarReportRepository.GetAll()) {
+                    listCarReports.Add(report);
+                }
             }
             catch (Exception ex) {
                 tsslbMessage.Text = "設定ファイル読み込みエラー";
@@ -50,7 +59,8 @@ namespace CarReportSystem {
                 Report = tbReport.Text,
                 Picture = pbPicture.Image,
             };
-
+            carReport.Id = repository.Add(carReport);
+            
             listCarReports.Add(carReport);
             //入力履歴を登録
             SetCbAutor(cbAuthor.Text.Trim());
@@ -97,6 +107,8 @@ namespace CarReportSystem {
             rbOther.Checked = true;
             pbPicture.Image = null;
             dgvRecords.ClearSelection(); //セルの選択を解除する
+            cbAuthor.Items.Clear();
+            cbCarName.Items.Clear();
         }
         private void SetRadioButtonMaker(MakerGroup targetMaker) {
             switch ((targetMaker)) {
@@ -139,17 +151,30 @@ namespace CarReportSystem {
         }
         //選択されているインデックスを取得
         private void btDeleteRecord_Click(object sender, EventArgs e) {
-            if ((dgvRecords.CurrentRow is null)
-                || (!dgvRecords.CurrentRow.Selected)) return;
-
-            //削除したいインデックスを指定してリストから削除
+            // 選択されている行からCarReportを取得
             if (dgvRecords.CurrentRow?.DataBoundItem is not CarReport carReport) {
                 tsslbMessage.Text = "削除するレポートを選択してください";
                 return;
             }
-            listCarReports.Remove(carReport);
 
-            InputItemsUpdate();
+            try {
+                // SQLiteから削除
+                repository.Delete(carReport);
+
+                // Form1のリストから削除
+                listCarReports.Remove(carReport);
+
+                // 入力欄をクリア
+                InputItemsAllClear();
+
+                tsslbMessage.Text = "レポートを削除しました。";
+            }
+            catch (Exception ex) {
+                tsslbMessage.Text = "削除エラー";
+                MessageBox.Show(ex.Message);
+
+                InputItemsUpdate();
+            }
         }
 
         private void InputItemsUpdate() {
@@ -172,11 +197,16 @@ namespace CarReportSystem {
             }
 
             //カーレポート管理用リストの該当する要素のデータを書き換える
-            dgvRecords.CurrentRow.Cells["Author"].Value = cbAuthor.Text.Trim();
-            dgvRecords.CurrentRow.Cells["Maker"].Value = GetRadioButtonMaker();
-            dgvRecords.CurrentRow.Cells["CarName"].Value = cbCarName.Text.Trim();
-            dgvRecords.CurrentRow.Cells["Report"].Value = tbReport.Text;
-            dgvRecords.CurrentRow.Cells["Picture"].Value = pbPicture.Image;
+            carReport.Date = dtpDate.Value.Date;
+            carReport.Author = cbAuthor.Text.Trim();
+            carReport.Maker = GetRadioButtonMaker();
+            carReport.CarName = cbCarName.Text.Trim();
+            carReport.Report = tbReport.Text;
+            carReport.Picture = pbPicture.Image;
+
+            repository.Update(carReport);
+
+            dgvRecords.Refresh();
 
             SetCbAutor(cbAuthor.Text.Trim());
             SetCbCarName(cbCarName.Text.Trim());
@@ -196,7 +226,6 @@ namespace CarReportSystem {
             cbCarName.Text = carReport.CarName;
             tbReport.Text = carReport.Report;
             pbPicture.Image = (carReport.Picture);
-            InputItemsUpdate();     //データグリッドビューを更新したら呼ぶメソッド
         }
 
         private void 終了ToolStripMenuItem_Click(object sender, EventArgs e) {
