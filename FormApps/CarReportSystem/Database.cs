@@ -36,7 +36,7 @@ public static class Database
         // IF NOT EXISTS により、既にテーブルがあってもエラーにならない
         command.CommandText =
             """
-            CREATE TABLE IF NOT EXISTS CarReport(
+            CREATE TABLE IF NOT EXISTS CarReports(
             Id    INTEGER PRIMARY KEY AUTOINCREMENT,
             Date  TEXT    NOT NULL,
             Author TEXT    NOT NULL,

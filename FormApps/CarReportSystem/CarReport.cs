@@ -1,5 +1,5 @@
 ﻿namespace CarReportSystem {
-    public class CarReport {
+    public class CarReports {
         public enum MakerGroup {
             なし,
             トヨタ,

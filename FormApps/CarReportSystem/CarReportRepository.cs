@@ -13,9 +13,9 @@ namespace SQLiteProductSample;
 // CRUD（Create / Read / Update / Delete）を担当する
 public class CarReportRepository {
     // 全商品を取得する。Read（SELECT）に相当する
-    public static List<CarReport> GetAll() {
+    public static List<CarReports> GetAll() {
 
-        var carReports = new List<CarReport>();
+        var carReports = new List<CarReports>();
 
 
         using var connection = Database.GetConnection();
@@ -28,7 +28,7 @@ public class CarReportRepository {
         command.CommandText =
             """
             SELECT Id, Date, Author, Maker, CarName, Report, Picture
-            FROM CarReport
+            FROM CarReports
             ORDER BY Id;
             """;
 
@@ -36,14 +36,14 @@ public class CarReportRepository {
         using var reader = command.ExecuteReader();
 
         while (reader.Read()) {
-            carReports.Add(new CarReport {
+            carReports.Add(new CarReports {
                 Id = reader.GetInt32(0),
                 Date = DateTime.ParseExact(
                     reader.GetString(1),
                 "yyyy-MM-dd",
                 CultureInfo.InvariantCulture),
                 Author = reader.GetString(2),
-                Maker = (CarReport.MakerGroup)reader.GetInt32(3),
+                Maker = (CarReports.MakerGroup)reader.GetInt32(3),
                 CarName = reader.GetString(4),
                 Report = reader.GetString(5),
                 Picture = reader.IsDBNull(6)
@@ -55,7 +55,7 @@ public class CarReportRepository {
     }
     //商品を1件追加する。Create(INSERT)に相当する
     //戻り値として自動採番されたIdを返す
-    public int Add(CarReport carReport) {
+    public int Add(CarReports carReport) {
         //接続オブジェクトを生成する。
         using var connection = Database.GetConnection();
 
@@ -69,7 +69,7 @@ public class CarReportRepository {
         command.CommandText =
             """
             
-            INSERT INTO CarReport
+            INSERT INTO CarReports
 
             (Date, Author, Maker, CarName, Report, Picture)
 
@@ -105,7 +105,7 @@ public class CarReportRepository {
         return Convert.ToInt32((long)result);
     }
 
-    public void Update(CarReport carReport) {
+    public void Update(CarReports carReport) {
         //接続オブジェクトを生成する。
         using var connection = Database.GetConnection();
 
@@ -118,7 +118,7 @@ public class CarReportRepository {
 
         command.CommandText =
             """
-            UPDATE CarReport
+            UPDATE CarReports
             SET Date = $date, Author = $author, Maker = $maker,
             CarName = $carName, Report = $report, Picture = $picture
             WHERE Id = $id;
@@ -134,7 +134,7 @@ public class CarReportRepository {
         if (command.ExecuteNonQuery() == 0)
             throw new InvalidOperationException("修正対象の商品が見つかりませんでした。");
     }
-    public void Delete(CarReport carReport) {
+    public void Delete(CarReports carReport) {
         using var connection = Database.GetConnection();
 
         connection.Open();
@@ -143,7 +143,7 @@ public class CarReportRepository {
 
         command.CommandText =
             """
-            DELETE FROM CarReport
+            DELETE FROM CarReports
             WHERE Id = $id;
             """;
         command.Parameters.AddWithValue("$id", carReport.Id);

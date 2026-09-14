@@ -52,8 +52,6 @@
             menuStrip1 = new MenuStrip();
             ファイルFToolStripMenuItem = new ToolStripMenuItem();
             ファイルFToolStripMenuItem1 = new ToolStripMenuItem();
-            開くToolStripMenuItem = new ToolStripMenuItem();
-            保存ToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             色設定ToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator2 = new ToolStripSeparator();
@@ -249,7 +247,7 @@
             dgvRecords.Name = "dgvRecords";
             dgvRecords.ReadOnly = true;
             dgvRecords.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvRecords.Size = new Size(474, 288);
+            dgvRecords.Size = new Size(929, 288);
             dgvRecords.TabIndex = 6;
             dgvRecords.SelectionChanged += dgvRecords_SelectionChanged;
             // 
@@ -322,14 +320,13 @@
             pbPicture.SizeMode = PictureBoxSizeMode.StretchImage;
             pbPicture.TabIndex = 10;
             pbPicture.TabStop = false;
-            pbPicture.Click += pbPicture_Click;
             // 
             // btAddRecord
             // 
             btAddRecord.BackColor = SystemColors.ActiveCaption;
             btAddRecord.Font = new Font("Yu Gothic UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             btAddRecord.ForeColor = SystemColors.ActiveCaptionText;
-            btAddRecord.Location = new Point(629, 499);
+            btAddRecord.Location = new Point(628, 471);
             btAddRecord.Name = "btAddRecord";
             btAddRecord.Size = new Size(81, 81);
             btAddRecord.TabIndex = 11;
@@ -341,7 +338,7 @@
             // 
             btModifyRecord.BackColor = SystemColors.Info;
             btModifyRecord.Font = new Font("Yu Gothic UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            btModifyRecord.Location = new Point(792, 499);
+            btModifyRecord.Location = new Point(792, 471);
             btModifyRecord.Name = "btModifyRecord";
             btModifyRecord.Size = new Size(81, 81);
             btModifyRecord.TabIndex = 12;
@@ -355,7 +352,7 @@
             btDeleteRecord.FlatStyle = FlatStyle.Flat;
             btDeleteRecord.Font = new Font("Yu Gothic UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             btDeleteRecord.ForeColor = SystemColors.ControlLightLight;
-            btDeleteRecord.Location = new Point(965, 499);
+            btDeleteRecord.Location = new Point(961, 471);
             btDeleteRecord.Name = "btDeleteRecord";
             btDeleteRecord.Size = new Size(81, 81);
             btDeleteRecord.TabIndex = 13;
@@ -374,7 +371,7 @@
             // 
             // ファイルFToolStripMenuItem
             // 
-            ファイルFToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { ファイルFToolStripMenuItem1, 開くToolStripMenuItem, 保存ToolStripMenuItem, toolStripSeparator1, 色設定ToolStripMenuItem, toolStripSeparator2, 終了ToolStripMenuItem });
+            ファイルFToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { ファイルFToolStripMenuItem1, toolStripSeparator1, 色設定ToolStripMenuItem, toolStripSeparator2, 終了ToolStripMenuItem });
             ファイルFToolStripMenuItem.Name = "ファイルFToolStripMenuItem";
             ファイルFToolStripMenuItem.Size = new Size(67, 20);
             ファイルFToolStripMenuItem.Text = "ファイル(&F)";
@@ -384,20 +381,6 @@
             ファイルFToolStripMenuItem1.Name = "ファイルFToolStripMenuItem1";
             ファイルFToolStripMenuItem1.Size = new Size(155, 22);
             ファイルFToolStripMenuItem1.Text = "ファイル(&F)";
-            // 
-            // 開くToolStripMenuItem
-            // 
-            開くToolStripMenuItem.Name = "開くToolStripMenuItem";
-            開くToolStripMenuItem.Size = new Size(155, 22);
-            開くToolStripMenuItem.Text = "開く...";
-            開くToolStripMenuItem.Click += 開くToolStripMenuItem_Click;
-            // 
-            // 保存ToolStripMenuItem
-            // 
-            保存ToolStripMenuItem.Name = "保存ToolStripMenuItem";
-            保存ToolStripMenuItem.Size = new Size(155, 22);
-            保存ToolStripMenuItem.Text = "保存...";
-            保存ToolStripMenuItem.Click += 保存ToolStripMenuItem_Click;
             // 
             // toolStripSeparator1
             // 
@@ -540,8 +523,6 @@
         private MenuStrip menuStrip1;
         private ToolStripMenuItem ファイルFToolStripMenuItem;
         private ToolStripMenuItem ファイルFToolStripMenuItem1;
-        private ToolStripMenuItem 開くToolStripMenuItem;
-        private ToolStripMenuItem 保存ToolStripMenuItem;
         private ToolStripMenuItem 色設定ToolStripMenuItem;
         private ToolStripMenuItem 終了ToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator1;
