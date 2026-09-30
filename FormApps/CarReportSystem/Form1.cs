@@ -199,6 +199,8 @@ namespace CarReportSystem {
             InputItemsUpdate();     //データグリッドビューを更新したら呼ぶメソッド
         }
 
+
+
         private void 終了ToolStripMenuItem_Click(object sender, EventArgs e) {
             Application.Exit();
         }
@@ -215,14 +217,9 @@ namespace CarReportSystem {
             //設定ファイルへ色情報を保存する処理（シリアル化）
             //P283以降を参考にする（ファイル名：setting.xml)
             Settings.Instance.Save();
-            }
-
-        private void 保存ToolStripMenuItem_Click(object sender, EventArgs e) {
-            reportSaveFile();
         }
-        private void 開くToolStripMenuItem_Click(object sender, EventArgs e) {
-            reportOpenFile();
-        }
+    }
+}
 
         //ファイルセーブ処理
         private void reportSaveFile() {
