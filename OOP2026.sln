@@ -147,6 +147,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AspNetCoreMVC", "AspNetCore
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcBasicSample", "AspNetCoreMVC\MvcBasicSample\MvcBasicSample.csproj", "{FEE3DAF6-228B-40AD-858D-8709A07390EB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfOrderSystem", "AspNetCoreMVC\SelfOrderSystem\SelfOrderSystem\SelfOrderSystem.csproj", "{BF16AB81-D7D8-4526-8F7A-FF993830CCE3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -321,6 +323,10 @@ Global
 		{FEE3DAF6-228B-40AD-858D-8709A07390EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEE3DAF6-228B-40AD-858D-8709A07390EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEE3DAF6-228B-40AD-858D-8709A07390EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF16AB81-D7D8-4526-8F7A-FF993830CCE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF16AB81-D7D8-4526-8F7A-FF993830CCE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF16AB81-D7D8-4526-8F7A-FF993830CCE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF16AB81-D7D8-4526-8F7A-FF993830CCE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -385,6 +391,7 @@ Global
 		{6A384094-EBC9-4EB6-8755-B2F6229EF19C} = {09686E56-BE2C-4E06-9E58-0665AE53BB1B}
 		{84B66FDD-5552-D43E-B2CB-9DC2A25E5F4C} = {09686E56-BE2C-4E06-9E58-0665AE53BB1B}
 		{FEE3DAF6-228B-40AD-858D-8709A07390EB} = {184DB4AC-2F69-4018-86D8-F694EB3F375E}
+		{BF16AB81-D7D8-4526-8F7A-FF993830CCE3} = {184DB4AC-2F69-4018-86D8-F694EB3F375E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8A3F110E-C340-4706-9BE0-185F4A7C2A46}
