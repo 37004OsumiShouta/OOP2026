@@ -35,6 +35,7 @@ namespace Exercise01_WPF {
 
             using var sr = new StreamReader(fileName);
 
+
             string? line;
             while ((line = await sr.ReadLineAsync()) != null) {
                 sb.AppendLine(line);
