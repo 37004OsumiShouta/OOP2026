@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\TextFIleProcessor\TextFIleProcessor.csproj" />
+    <ProjectReference Include="..\TextFileProcessor\TextFileProcessor.csproj" />
   </ItemGroup>
 
 </Project>

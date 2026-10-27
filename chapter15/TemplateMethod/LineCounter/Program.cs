@@ -1,6 +1,6 @@
 ﻿using TextFileProcessor;
 
-string path = @"\\172.16.42.1\学生\2026_情報システム\オブジェクト指向プログラミングⅠ\吾輩は猫である.txt";
+string path = @"C:\Users\infosys\Documents\吾輩は猫である.txt";
 TextProcessor.Run<LineCounterProcessor>(path);
 
 
