@@ -19,4 +19,4 @@ public class ConverterFactory {
 
     public static ConverterBase? GetInstance(string name) =>
         _converters.FirstOrDefault(x => x.IsMyUnit(name));
-}
+};
