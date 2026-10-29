@@ -1,24 +1,20 @@
 ﻿using System.Diagnostics.Tracing;
 
 namespace Exercise03;
+internal class TextFileProcessor{
+    private ITextFileService _service;
 
-public abstract class TextProcessor {
-    public static void Run<T>(string fileName) where T : TextProcessor, new() {
-        var self = new T();
-        self.Process(fileName);
+    public TextFileProcessor(ITextFileService service) {
+        _service = service;
     }
-
-    private void Process(string fileName) {
-        Initialize(fileName);
+    
+    public void Run(string fileName) {
+        _service.Initialize(fileName);
         var lines = File.ReadLines(fileName);
         foreach (var line in lines) {
-            Execute(line);
+            if (_service.Execute(line) == false)
+                break;
         }
-        Terminate();
+        _service.Terminate();
     }
-
-    protected virtual void Initialize(string fname) { }
-    protected virtual void Execute(string line) { }
-    protected virtual void Terminate() { }
-
 }

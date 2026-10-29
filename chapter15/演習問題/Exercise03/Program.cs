@@ -1,7 +1,6 @@
-﻿namespace Exercise03;
+﻿using Exercise03;
 
-internal class Program {
-    static void Main(string[] args) {
-        TextProcessor.Run<Take20Processor>("枕草子.txt");
-    }
-}
+        var service = new Take20Processor();
+        var processor = new TextFileProcessor(service);
+
+        processor.Run(@"枕草子.txt");

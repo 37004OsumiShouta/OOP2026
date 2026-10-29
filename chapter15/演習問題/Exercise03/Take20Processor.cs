@@ -2,13 +2,22 @@
 
 namespace Exercise03;
 
-public class Take20Processor : TextProcessor {
+public class Take20Processor : ITextFileService {
     private int _count = 0;
 
-    protected override void Execute(string line) {
+    public void Initialize(string fileName) {
+
+    }
+
+    public bool Execute(string line) {
         if (_count < 20) {
             Console.WriteLine(line);
-            _count++;
+            
         }
+        _count++;
+        return _count < 20;
+    }
+    public void Terminate() {
+
     }
 }
