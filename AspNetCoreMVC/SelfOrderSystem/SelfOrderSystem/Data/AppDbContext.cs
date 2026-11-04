@@ -1,20 +1,29 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SelfOrderSystem.Models;
 
+namespace SelfOrderSystem.Data;
 
-namespace SelfOrderSystem.Data {
-    public class AppDbContext : DbContext {
+public class AppDbContext : DbContext {
+    public AppDbContext(DbContextOptions<AppDbContext> options)
+        : base(options) {
+    }
 
-        //Program.cs で登録した接続設定を受け取る
-        public AppDbContext(DbContextOptions<AppDbContext> options)
-       : base(options) {    //受け取った設定を親クラスに返す
-        }
+    public DbSet<Category> Categories => Set<Category>();
+    public DbSet<Product> Products => Set<Product>();
+    public DbSet<Order> Orders => Set<Order>();
+    public DbSet<OrderItem> OrderItems => Set<OrderItem>();
 
-        //Categories　テーブルをCategory 型として問い合わせるためのプロパティ
-        public DbSet<Category> Categories => Set<Category>();        // カテゴリ 
+    protected override void OnModelCreating(ModelBuilder modelBuilder) {
+        base.OnModelCreating(modelBuilder);
 
-        //Products テーブルを Product 型として問い合わせるためのプロパティ
-        public DbSet<Product> Products => Set<Product>();            // 商品 
+        modelBuilder.Entity<Order>()
+            .HasIndex(o => o.PublicId)
+            .IsUnique();                 // 公開IDの重複を防止 
+
+        modelBuilder.Entity<OrderItem>()
+            .HasOne(i => i.Product)
+            .WithMany()
+            .HasForeignKey(i => i.ProductId)
+            .OnDelete(DeleteBehavior.Restrict); // 注文履歴を保護 
     }
 }
-
