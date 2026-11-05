@@ -1,22 +1,329 @@
-html {
-  font-size: 14px;
+
+/* ==========================================
+   SUPER RAINBOW PACHISLOT ORDER SYSTEM
+   ========================================== */
+
+:root {
+    --rainbow: linear-gradient( 90deg, #ff0000, #ff8800, #ffff00, #00ff00, #00ccff, #6600ff, #ff00ff, #ff0000 );
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
+/* 背景 */
 body {
-  margin-bottom: 60px;
+    background: radial-gradient(ellipse at center, #252040 0%, #090014 65%, #000 100%);
+    color: white;
+    font-family: "Meiryo", sans-serif;
+}
+
+/* 画面全体 */
+.slot-container {
+    position: relative;
+    background: linear-gradient(145deg, #160d2b, #03030a);
+    border: 3px solid #ff00ff;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 0 10px #ff00ff, 0 0 25px #00ffff, 0 0 45px #ff00ff, inset 0 0 30px #000;
+    animation: rainbowBorder 3s linear infinite;
+}
+
+/* 虹色タイトル */
+.slot-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    text-align: center;
+    letter-spacing: 5px;
+    background: var(--rainbow);
+    background-size: 400% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbowMove 2s linear infinite;
+    filter: drop-shadow(0 0 8px #ff00ff);
+}
+
+/* サブタイトル */
+.slot-subtitle {
+    color: #00ffff;
+    font-weight: bold;
+    border-bottom: 2px solid #00ffff;
+    padding-bottom: 10px;
+    text-shadow: 0 0 5px #00ffff, 0 0 15px #0088ff;
+}
+
+/* メニューカード */
+.slot-card {
+    position: relative;
+    background: linear-gradient(145deg, #21133d, #080818);
+    border: 2px solid #00ccff;
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 18px;
+    color: white;
+    box-shadow: 0 0 8px #00ccff, inset 0 0 15px rgba(0, 100, 255, 0.15);
+    transition: all 0.25s ease;
+    animation: cardGlow 3s ease-in-out infinite alternate;
+}
+
+    .slot-card:hover {
+        border-color: #ffff00;
+        transform: scale(1.03);
+        box-shadow: 0 0 10px #ffff00, 0 0 25px #ff8800, 0 0 40px #ff00ff;
+    }
+
+/* メニュー名 */
+.slot-menu-name {
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-shadow: 0 0 5px #00ffff, 0 0 12px #0088ff;
+}
+
+/* 価格 */
+.slot-price {
+    color: #ffff00;
+    font-size: 1.6rem;
+    font-weight: 900;
+    text-shadow: 0 0 5px #ffff00, 0 0 15px #ff8800, 0 0 25px #ff0000;
+}
+
+/* 通常ボタン */
+.slot-btn {
+    background: linear-gradient(180deg, #ff3333, #990000);
+    color: white;
+    border: 2px solid #ff9999;
+    border-radius: 10px;
+    padding: 10px 22px;
+    font-weight: 900;
+    box-shadow: 0 0 8px #ff0000, 0 0 18px rgba(255, 0, 0, 0.7), inset 0 2px 5px rgba(255,255,255,0.4);
+    transition: 0.2s;
+}
+
+    .slot-btn:hover {
+        background: linear-gradient(180deg, #ff9900, #ff0000);
+        color: white;
+        transform: scale(1.08);
+        box-shadow: 0 0 15px #ff0000, 0 0 30px #ffff00;
+    }
+
+/* 数量ボタン */
+.slot-count-btn {
+    background: linear-gradient(180deg, #00ccff, #003399);
+    color: white;
+    border: 2px solid #00ffff;
+    border-radius: 8px;
+    padding: 6px 16px;
+    font-weight: bold;
+    box-shadow: 0 0 12px #00ccff;
+}
+
+    .slot-count-btn:hover {
+        background: #00ffff;
+        color: #000;
+        box-shadow: 0 0 25px #00ffff;
+    }
+
+/* 注文一覧 */
+.slot-order-panel {
+    background: linear-gradient(145deg, #080820, #18052a);
+    border: 3px solid #ff00ff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 0 10px #ff00ff, 0 0 25px #8800ff, inset 0 0 20px #000;
+    animation: panelGlow 3s ease-in-out infinite alternate;
+}
+
+/* 合計金額 */
+.slot-total {
+    color: #ffff00;
+    font-size: 2.3rem;
+    font-weight: 900;
+    text-align: right;
+    text-shadow: 0 0 5px #ffff00, 0 0 15px #ff8800, 0 0 30px #ff0000;
+    border-top: 2px solid #ff00ff;
+    padding-top: 15px;
+}
+
+/* 入力フォーム */
+.slot-input {
+    background: #080818;
+    color: #00ffcc;
+    border: 2px solid #00ccff;
+    border-radius: 8px;
+}
+
+    .slot-input:focus {
+        background: #000;
+        color: #00ffcc;
+        border-color: #ff00ff;
+        box-shadow: 0 0 15px #ff00ff;
+    }
+
+/* カテゴリボタン */
+.slot-category-btn {
+    background: linear-gradient(145deg, #252040, #080818);
+    color: #ffff00;
+    border: 2px solid #ff00ff;
+    border-radius: 9px;
+    padding: 10px 18px;
+    font-weight: bold;
+    box-shadow: 0 0 8px #ff00ff;
+}
+
+    .slot-category-btn:hover,
+    .slot-category-btn.active {
+        background: linear-gradient(90deg, #ff0000, #ff8800, #ff00ff);
+        color: white;
+        border-color: #ffff00;
+        box-shadow: 0 0 12px #ff00ff, 0 0 25px #ffff00;
+    }
+
+/* 注文確定ボタン */
+.slot-confirm-btn {
+    background: linear-gradient( 90deg, #ff0000, #ff8800, #ffff00, #00ff00, #00ccff, #6600ff, #ff00ff );
+    background-size: 300% 100%;
+    color: white;
+    border: 3px solid white;
+    border-radius: 12px;
+    padding: 16px 35px;
+    font-size: 1.3rem;
+    font-weight: 900;
+    text-shadow: 0 0 5px #000;
+    box-shadow: 0 0 10px white, 0 0 25px #ff00ff, 0 0 40px #00ffff;
+    animation: rainbowMove 2s linear infinite, buttonPulse 1.2s ease-in-out infinite alternate;
+}
+
+    .slot-confirm-btn:hover {
+        color: white;
+        transform: scale(1.06);
+        box-shadow: 0 0 20px white, 0 0 40px #ff00ff, 0 0 60px #00ffff;
+    }
+
+/* メッセージ */
+.slot-message {
+    background: #080818;
+    color: #00ffff;
+    border: 2px solid #00ffff;
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+    font-weight: bold;
+    text-shadow: 0 0 10px #00ffff;
+    box-shadow: 0 0 15px #00ccff;
+}
+
+/* ==========================================
+   アニメーション
+   ========================================== */
+
+/* 虹色移動 */
+@keyframes rainbowMove {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 400% 50%;
+    }
+}
+
+/* 枠の虹色発光 */
+@keyframes rainbowBorder {
+    0% {
+        border-color: #ff0000;
+        box-shadow: 0 0 15px #ff0000;
+    }
+
+    25% {
+        border-color: #ffff00;
+        box-shadow: 0 0 20px #ffff00;
+    }
+
+    50% {
+        border-color: #00ffff;
+        box-shadow: 0 0 20px #00ffff;
+    }
+
+    75% {
+        border-color: #ff00ff;
+        box-shadow: 0 0 20px #ff00ff;
+    }
+
+    100% {
+        border-color: #ff0000;
+        box-shadow: 0 0 15px #ff0000;
+    }
+}
+
+/* カード発光 */
+@keyframes cardGlow {
+    from {
+        box-shadow: 0 0 5px #00ccff;
+    }
+
+    to {
+        box-shadow: 0 0 15px #8800ff;
+    }
+}
+
+/* 注文パネル発光 */
+@keyframes panelGlow {
+    from {
+        box-shadow: 0 0 10px #ff00ff;
+    }
+
+    to {
+        box-shadow: 0 0 25px #00ffff;
+    }
+}
+
+/* ボタン鼓動 */
+@keyframes buttonPulse {
+    from {
+        filter: brightness(1);
+    }
+
+    to {
+        filter: brightness(1.5);
+    }
+}
+
+/* スマホ対応 */
+@media (max-width: 768px) {
+    .slot-container {
+        padding: 12px;
+    }
+
+    .slot-title {
+        font-size: 1.7rem;
+        letter-spacing: 2px;
+    }
+
+    .slot-menu-name {
+        font-size: 1rem;
+    }
+
+    .slot-price {
+        font-size: 1.3rem;
+    }
+
+    .slot-total {
+        font-size: 1.7rem;
+    }
+
+    .slot-confirm-btn {
+        width: 100%;
+        font-size: 1.1rem;
+    }
+}
+
+/* 動きを抑えたい端末への配慮 */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+
+
+
 }
