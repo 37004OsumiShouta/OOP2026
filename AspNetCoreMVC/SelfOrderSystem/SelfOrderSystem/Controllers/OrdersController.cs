@@ -10,12 +10,14 @@ namespace SelfOrderSystem.Controllers;
 
 public class OrdersController : Controller {
 
- private readonly AppDbContext _db;      // 商品と注文のDB操作 
-    private readonly CartService _cart;    // Session内のカート操作 
+ private readonly AppDbContext _db;               // 商品と注文のDB操作 
+    private readonly CartService _cart;           // Session内のカート操作 
+    private readonly IOrderService _orderService; // 注文の検証と保存を担当するService
 
-    public OrdersController(AppDbContext db, CartService cart) {
+    public OrdersController(AppDbContext db, CartService cart, IOrderService orderService) {
         _db = db;
         _cart = cart;
+        _orderService = orderService;
     }
 
     [HttpGet]
@@ -39,23 +41,23 @@ public class OrdersController : Controller {
             .Where(p => ids.Contains(p.Id) && p.IsActive)
             .ToDictionaryAsync(p => p.Id); // 現在のDBから商品情報を取得 
 
-        foreach (var item in cartItems) {
-            if (!products.TryGetValue(item.ProductId, out var product)) {
-                ModelState.AddModelError("", "注文できない商品があります");
-                continue;
-            }
-            if (product.IsSoldOut)
-                ModelState.AddModelError("", $"{product.Name}は売り切れです");
-            if (item.Quantity < 1 || item.Quantity > 99)
-                ModelState.AddModelError("", "数量は1～99にしてください");
-            if (product.Price != item.UnitPrice)
-                ModelState.AddModelError("", $"{product.Name}の価格が変更されました");
-        }
-
         if (!ModelState.IsValid) {
             model.Items = cartItems;     // 再表示用の一覧を戻す 
             return View("Checkout", model);
         }
+        //注文処理をServiceへ依頼
+        var result = await _orderService.PlaceAsync(cartItems, model.TableNumber);
+
+        if (!result.IsSuccess) {
+            foreach (var error in result.Errors) {
+                ModelState.AddModelError("", error);   //エラー画面表示する
+            }
+            model.Items = cartItems;
+            return View("Checkout", model);
+        }
+        _cart.Clear();                         // 保存成功後だけカートを消す 
+        return RedirectToAction(nameof(Complete),
+            new { id = result.PublicId });     // 完了画面へ移動 
 
         var order = new Order {
             PublicId = Guid.NewGuid(),
@@ -71,6 +73,7 @@ public class OrdersController : Controller {
                 UnitPrice = product.Price // 注文確定時のDB価格を保存 
             });
         }
+
 
         _db.Orders.Add(order);           // 注文と明細を登録対象にする 
         await _db.SaveChangesAsync();   // DB保存の完了を待つ 
