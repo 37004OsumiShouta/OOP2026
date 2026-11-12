@@ -20,7 +20,7 @@ public class OrderService : IOrderService {   // IOrderServiceで定義した処
         _hubContext = hubContext;   // DIでHubを受け取る 
         _logger = logger;           // DIでログを受け取る 
     }
-    
+
     public async Task<PlaceOrderResult> PlaceAsync(List<CartItem> cartItems, int tableNumber) {
         var result = new PlaceOrderResult(); // 注文結果とエラーをまとめる 
 
@@ -85,6 +85,9 @@ public class OrderService : IOrderService {   // IOrderServiceで定義した処
         result.PublicId = order.PublicId; // 保存に成功したID 
 
         try {
+            await _hubContext.Clients.Group($"order-{order.PublicId:N}")
+                                     .SendAsync("OrderStatusChanged");
+
             // 店舗画面へ更新の合図を送る 
             await _hubContext.Clients.All.SendAsync("OrdersChanged");
         }
@@ -93,4 +96,4 @@ public class OrderService : IOrderService {   // IOrderServiceで定義した処
         }
         return result;   //成功結果を返す
     }
-} 
+}
