@@ -20,3 +20,10 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+@media (min-width: 992px){
+    .so-cart-sidebar{
+        position: sticky;
+        top: 90px;
+    }
+}
