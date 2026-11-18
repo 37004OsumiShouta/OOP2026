@@ -1,25 +1,448 @@
-html {
-  font-size: 14px;
+
+/* ==========================================
+   VALORANT EXTREME MOTION DESIGN
+   Navy × Red × White
+========================================== */
+
+:root {
+    --v-red: #ff4655;
+    --v-red-light: #ff7883;
+    --v-bg: #0f1923;
+    --v-card: #263545;
+    --v-card-light: #304253;
+    --v-white: #ffffff;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+/* ==========================================
+   1. ANIMATED BACKGROUND
+========================================== */
+
+body {
+    background: radial-gradient( ellipse at 10% 20%, rgba(255,70,85,0.13), transparent 35% ), radial-gradient( ellipse at 90% 80%, rgba(255,70,85,0.10), transparent 35% ), #0f1923 !important;
+    background-size: 200% 200%;
+    animation: backgroundFlow 12s ease-in-out infinite alternate;
+    color: var(--v-white);
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+@keyframes backgroundFlow {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    100% {
+        background-position: 100% 100%;
+    }
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+/* 背景スキャンライン */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.12;
+    background: repeating-linear-gradient( 0deg, transparent 0px, transparent 3px, rgba(255,255,255,0.035) 4px );
+}
+
+/* ==========================================
+   2. PAGE ENTRANCE
+========================================== */
+
+main {
+    animation: mainEntrance 0.9s cubic-bezier(.16,1,.3,1) both;
+}
+
+@keyframes mainEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(35px) scale(.98);
+        filter: blur(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+/* ==========================================
+   3. CARD ANIMATION
+========================================== */
+
+.card {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background: #263545 !important;
+    border: 1px solid #526171 !important;
+    border-radius: 4px !important;
+    transition: transform .4s cubic-bezier(.16,1,.3,1), box-shadow .4s ease, border-color .3s ease;
+    animation: cardEntrance .8s cubic-bezier(.16,1,.3,1) both;
+}
+
+@keyframes cardEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(40px) rotateX(8deg);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) rotateX(0);
+    }
+}
+
+/* カード上部の赤いライン */
+.card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient( 90deg, transparent, #ff4655, #ffffff, #ff4655 );
+    transition: left .5s ease;
+    z-index: 3;
+}
+
+.card:hover::before {
+    left: 100%;
+}
+
+/* カード内の光 */
+.card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    background: linear-gradient( 120deg, transparent 30%, rgba(255,70,85,.12), transparent 70% );
+    transition: opacity .4s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.015);
+    border-color: var(--v-red) !important;
+    box-shadow: 0 15px 35px rgba(0,0,0,.4), 0 0 20px rgba(255,70,85,.25);
+}
+
+    .card:hover::after {
+        opacity: 1;
+    }
+
+/* ==========================================
+   4. BUTTON SCAN EFFECT
+========================================== */
+
+.btn {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    border-radius: 2px !important;
+    background: var(--v-red) !important;
+    color: #fff !important;
+    border: 1px solid #ff7883 !important;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    transition: all .3s cubic-bezier(.16,1,.3,1);
+}
+
+    .btn::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -100%;
+        width: 60%;
+        height: 200%;
+        transform: rotate(25deg);
+        background: rgba(255,255,255,.4);
+        transition: left .55s ease;
+        z-index: -1;
+    }
+
+    .btn:hover::before {
+        left: 150%;
+    }
+
+    .btn:hover {
+        transform: translateY(-4px) scale(1.03);
+        box-shadow: 0 8px 25px rgba(255,70,85,.4), 0 0 15px rgba(255,70,85,.3);
+    }
+
+    .btn:active {
+        transform: scale(.96);
+    }
+
+/* ==========================================
+   5. NAVIGATION MOTION
+========================================== */
+
+.navbar {
+    background: #172533 !important;
+    border-bottom: 2px solid var(--v-red);
+    box-shadow: 0 5px 25px rgba(0,0,0,.35);
+}
+
+    .navbar::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient( 90deg, transparent, #ff4655, #fff, #ff4655, transparent );
+        background-size: 200% 100%;
+        animation: navLaser 3s linear infinite;
+    }
+
+@keyframes navLaser {
+    from {
+        background-position: 100% 0;
+    }
+
+    to {
+        background-position: -100% 0;
+    }
+}
+
+.navbar a {
+    position: relative;
+    transition: color .3s ease;
+}
+
+    .navbar a::after {
+        content: "";
+        position: absolute;
+        bottom: -6px;
+        left: 0;
+        height: 2px;
+        width: 0;
+        background: var(--v-red);
+        box-shadow: 0 0 10px var(--v-red);
+        transition: width .35s ease;
+    }
+
+    .navbar a:hover {
+        color: var(--v-red-light) !important;
+    }
+
+        .navbar a:hover::after {
+            width: 100%;
+        }
+
+/* ==========================================
+   6. HEADING ANIMATION
+========================================== */
+
+h1, h2, h3 {
+    color: #fff !important;
+    letter-spacing: 1.5px;
+    animation: headingEnter .8s ease both;
+}
+
+@keyframes headingEnter {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+h1::after,
+h2::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 3px;
+    margin-top: 10px;
+    background: var(--v-red);
+    box-shadow: 0 0 12px var(--v-red);
+    animation: headingLine .8s .3s ease forwards;
+}
+
+@keyframes headingLine {
+    to {
+        width: 75px;
+    }
+}
+
+/* ==========================================
+   7. CART PULSE
+========================================== */
+
+.so-cart-sidebar {
+    background: #263545 !important;
+    border: 1px solid #526171 !important;
+    border-left: 4px solid var(--v-red) !important;
+    transition: all .4s ease;
+    animation: cartGlow 4s ease-in-out infinite;
+}
+
+@keyframes cartGlow {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(255,70,85,.05);
+    }
+
+    50% {
+        box-shadow: 0 0 22px rgba(255,70,85,.22);
+    }
+}
+
+.so-cart-sidebar:hover {
+    transform: translateY(-4px);
+    border-color: var(--v-red) !important;
+}
+
+/* ==========================================
+   8. FORM ANIMATION
+========================================== */
+
+.form-control,
+.form-select {
+    transition: all .3s ease;
+}
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: var(--v-red) !important;
+        box-shadow: 0 0 15px rgba(255,70,85,.25) !important;
+        transform: translateY(-2px);
+    }
+
+/* ==========================================
+   9. IMAGE MOTION
+========================================== */
+
+.card img {
+    transition: transform .6s cubic-bezier(.16,1,.3,1);
+}
+
+.card:hover img {
+    transform: scale(1.07);
+}
+
+/* ==========================================
+   10. LINK MOTION
+========================================== */
+
+a {
+    transition: all .25s ease;
+}
+
+    a:hover {
+        color: #ff7883;
+        text-shadow: 0 0 12px rgba(255,70,85,.5);
+    }
+
+/* ==========================================
+   11. TABLE MOTION
+========================================== */
+
+.table tbody tr {
+    transition: background-color .25s ease;
+}
+
+    .table tbody tr:hover {
+        background-color: rgba(255,70,85,.12);
+    }
+
+/* ==========================================
+   12. SCROLLBAR
+========================================== */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0f1923;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ff4655;
+    border-radius: 5px;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #ff7883;
+    }
+
+/* ==========================================
+   13. RED LIGHT EFFECT
+========================================== */
+
+@keyframes redPulse {
+    0%, 100% {
+        opacity: .15;
+    }
+
+    50% {
+        opacity: .5;
+    }
+}
+
+/* ==========================================
+   14. ACCESSIBILITY
+========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}
+/* ==========================================
+   FOOTER FIX
+   商品カードとの重なりを防止
+========================================== */
+
+/* フッターを通常の配置に戻す */
+footer,
+.footer {
+    position: relative !important;
+    width: 100%;
+    margin-top: 40px;
+    z-index: 2;
+    background: #0f1923;
+}
+
+/* ページ全体を縦方向に配置 */
+html,
+body {
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin-bottom: 0 !important;
 }
+
+/* メイン部分を伸ばす */
+main {
+    flex: 1 0 auto;
+    padding-bottom: 40px;
+}
+
+/* フッターの余白 */
+footer,
+.footer {
+    flex-shrink: 0;
+    padding: 20px 0;
+    border-top: 1px solid #526171;
+}
+
+
 
 @media (min-width: 992px){
     .so-cart-sidebar{
