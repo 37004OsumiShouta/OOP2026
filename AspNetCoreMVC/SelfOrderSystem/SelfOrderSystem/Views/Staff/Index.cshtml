@@ -86,11 +86,11 @@
 
                         @* 現在の注文状態 *@
                         <span class="staff-status
-                                                    @(order.Status == OrderStatus.Served
-                                                                                              ? "staff-status-served"
-                                                                                              : order.Status == OrderStatus.Cooking
-                                                                                                  ? "staff-status-cooking"
-                                                                                                  : "staff-status-new")">
+                                  @(order.Status == OrderStatus.Served
+                                                        ? "staff-status-served"
+                                                        : order.Status == OrderStatus.Cooking
+                                                        ? "staff-status-cooking"
+                                                        : "staff-status-new")">
                     @order.Status.ToJapanese()
                 </span>
             </div>
