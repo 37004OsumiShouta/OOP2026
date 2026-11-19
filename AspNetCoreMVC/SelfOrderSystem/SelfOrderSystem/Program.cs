@@ -2,6 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using SelfOrderSystem.Data;
 using SelfOrderSystem.Services;
 using SelfOrderSystem.Hubs;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using SelfOrderSystem.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,14 +30,28 @@ builder.Services.AddSession(options =>                           // Session‹@”\‚
 builder.Services.AddHttpContextAccessor();                       // ControllerˆÈŠO‚ÌƒNƒ‰ƒX‚©‚çHttpContext‚ğæ“¾‚Å‚«‚é‚æ‚¤‚É‚·‚é
 builder.Services.AddScoped<CartService>();                       // CartService‚ğDI‚Ö“o˜^‚µController‚Åó‚¯æ‚ê‚é‚æ‚¤‚É‚·‚é
 
-builder.Services.AddScoped<IOrderService, OrderService>();  //ƒT[ƒrƒX‘w‚ğì¬‚µ‚½‚±‚Æ‚É‚æ‚é’Ç‰Á
+builder.Services.AddScoped<IOrderService, OrderService>();       //ƒT[ƒrƒX‘w‚ğì¬‚µ‚½‚±‚Æ‚É‚æ‚é’Ç‰Á
 
 builder.Services.AddSignalR();
 
+// ƒXƒ^ƒbƒt‚ÌƒpƒXƒ[ƒhÆ‡—p‚ÌƒT[ƒrƒX 
+builder.Services.AddScoped<IPasswordHasher<StaffUser>, PasswordHasher<StaffUser>>();
 
+// Cookie ‚ğg‚Á‚½ƒƒOƒCƒ“•û®‚ğ“o˜^ 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+.AddCookie(options => {
+    options.LoginPath = "/Account/Login";                    // –¢ƒƒOƒCƒ“‚Ì‘JˆÚæ 
+    options.AccessDeniedPath = "/Account/Denied";            // Œ ŒÀ•s‘«‚Ì‘JˆÚæ 
+    options.Cookie.HttpOnly = true;                          // JavaScript ‚©‚ç“Ç‚İæ‚è•s‰Â 
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // HTTPS ŒÀ’è 
+    options.ExpireTimeSpan = TimeSpan.FromHours(8);          // ”FØƒ`ƒPƒbƒg‚Ì—LŒøŠúŠÔ 
+});
+builder.Services.AddAuthorization();
 
 
 var app = builder.Build();
+
+
 
 //’Ç‰Á
 if (app.Environment.IsDevelopment()) {
@@ -56,9 +73,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-//’Ê’m
 app.UseSession();   // ‚±‚ÌƒŠƒNƒGƒXƒg‚ÅSession‚ğg‚¦‚é‚æ‚¤‚É‚·‚é
 /////////
+app.UseAuthentication(); // ”FØCookie ‚©‚çƒƒOƒCƒ“ó‘Ô‚ğ•œŒ³ 
 
 app.UseAuthorization();
 
@@ -67,5 +84,8 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapHub<StaffOrdersHub>("/staffOrdersHub");
+
+//‰‰ñ‚¾‚¯ƒXƒ^ƒbƒtƒAƒJƒEƒ“ƒg‚ğ“o˜^
+await StaffAccountSeeder.InitializeAsync(app.Services);
 
 app.Run();

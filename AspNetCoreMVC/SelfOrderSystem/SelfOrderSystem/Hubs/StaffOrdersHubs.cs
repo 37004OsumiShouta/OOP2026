@@ -13,5 +13,11 @@ public class StaffOrdersHub : Hub {
         // 同じ注文IDのブラウザを同じグループへ登録 
         await Groups.AddToGroupAsync(
         Context.ConnectionId, $"order-{id:N}");
-    } 
+    }
+
+    public async Task JoinStaff() {
+        if (Context.User?.IsInRole("Staff") != true)
+            throw new HubException("スタッフ認証が必要です");
+        await Groups.AddToGroupAsync(Context.ConnectionId, "staff");
+    }
 } 

@@ -182,13 +182,14 @@
         .withAutomaticReconnect()
         .build();
         // 通知を受けたら最新の注文一覧を読み直す
-        staffConnection.on("OrdersChanged", () => {
+                staffConnection.onreconnected(async () => {
+        await staffConnection.invoke("JoinStaff");
         window.location.reload();
         });
-        // 再接続後も表示内容を更新する
+                // 再接続後も表示内容を更新する
         staffConnection.onreconnected(() => window.location.reload());
-        staffConnection.start().catch(error => {
-        console.error("店舗 SignalR 接続エラー", error);
-        });
+                staffConnection.start()
+        .then(() => staffConnection.invoke("JoinStaff"))
+        .catch(error => console.error("店舗 SignalR 接続エラー", error));
     </script>
 }
