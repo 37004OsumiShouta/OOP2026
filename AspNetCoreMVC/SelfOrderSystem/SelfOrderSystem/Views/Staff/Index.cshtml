@@ -11,6 +11,8 @@
     int servedCount = Model.Count(o => o.Status == OrderStatus.Served);
 }
 
+<link rel="stylesheet" href="~/css/staff.css" asp-append-version="true" />
+
 <div class="staff-page">
 
     @* 画面タイトル *@
@@ -20,15 +22,11 @@
             <h1>店舗 注文管理</h1>
             <p>新しい注文から最大50件を表示しています</p>
         </div>
-
-        <span class="staff-header-label">
-            ORDER MANAGEMENT
-        </span>
+        <span class="staff-header-label">ORDER MANAGEMENT</span>
     </div>
 
     @* 注文数の集計 *@
     <div class="staff-summary">
-
         <div class="staff-summary-box">
             <span>表示件数</span>
             <strong>@Model.Count</strong>
@@ -43,31 +41,25 @@
             <span>提供済み</span>
             <strong>@servedCount</strong>
         </div>
-
     </div>
 
-    @* 注文がない場合 *@
     @if (Model.Count == 0) {
         <div class="staff-empty">
             <h2>現在、注文はありません</h2>
             <p>新しい注文が入ると、ここに表示されます</p>
         </div>
     } else {
-        @* 注文一覧 *@
+        @* 注文をカード形式で並べる *@
         <div class="staff-order-grid">
 
             @foreach (var order in Model) {
                 // 注文全体の合計金額
-                var total = order.Items.Sum(
-                i => i.UnitPrice * i.Quantity
-                );
+                var total = order.Items.Sum(i => i.UnitPrice * i.Quantity);
 
-                // 注文状態に応じたCSSクラス
-                var statusClass = order.Status switch {
-                    OrderStatus.Served => "staff-status-served",
-                    OrderStatus.Cooking => "staff-status-cooking",
-                    _ => "staff-status-new"
-                };
+                // 注文日時を日本時間へ変換
+                var japanTime = TimeZoneInfo.ConvertTime(
+                order.OrderedAtUtc,
+                TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time"));
 
                 <article class="staff-order-card">
 
@@ -75,39 +67,39 @@
                     <div class="staff-order-top">
 
                         <div class="staff-order-identity">
-
                             <span class="staff-table-number">
                                 卓 @order.TableNumber
                             </span>
 
                             <div>
-
                                 <div class="staff-order-id">
                                     注文 #@order.Id
                                 </div>
 
-                                @* 日付表示の修正版 *@
+
                                 <time class="staff-order-time">
-                                    @order.OrderedAtUtc.ToLocalTime().ToString("yyyy/MM/dd HH:mm")
+                                    @japanTime.ToString("yyyy/MM/dd HH:mm")
                                 </time>
 
                             </div>
-
                         </div>
 
                         @* 現在の注文状態 *@
-                        <span class="staff-status @statusClass">
-                            @order.Status.ToJapanese()
-                        </span>
-
-                    </div>
+                        <span class="staff-status
+                                                    @(order.Status == OrderStatus.Served
+                                                                                              ? "staff-status-served"
+                                                                                              : order.Status == OrderStatus.Cooking
+                                                                                                  ? "staff-status-cooking"
+                                                                                                  : "staff-status-new")">
+                    @order.Status.ToJapanese()
+                </span>
+            </div>
 
                     @* 商品一覧 *@
                     <div class="staff-order-items">
 
-                        @foreach (var item in order.Items) {
+                @foreach (var item in order.Items) {
                             <div class="staff-order-item">
-
                                 <span>
                                     @item.Product?.Name
                                 </span>
@@ -115,7 +107,6 @@
                                 <strong>
                                     × @item.Quantity
                                 </strong>
-
                             </div>
                         }
 
@@ -125,22 +116,17 @@
                     <div class="staff-order-bottom">
 
                         <div class="staff-total">
-
                             <span>注文合計</span>
-
                             <strong>
                                 @total.ToString("N0")
                             </strong>
-
                         </div>
 
-                        @* 提供済みでない場合は状態変更ボタン *@
                         @if (order.Status != OrderStatus.Served) {
+                            @* 既存の状態変更処理を呼び出す *@
                             <form asp-controller="Staff"
                                   asp-action="Advance"
                                   method="post">
-
-                                @Html.AntiForgeryToken()
 
                                 <input type="hidden"
                                        name="id"
@@ -148,20 +134,15 @@
 
                                 <button type="submit"
                                         class="btn staff-action-button">
-
                                     @order.Status.NextActionLabel()
                                     →
-
                                 </button>
-
                             </form>
                         } else {
-                            @* 提供済みの場合 *@
                             <span class="staff-completed">
                                 完了
                             </span>
                         }
-
                     </div>
 
                 </article>
@@ -169,27 +150,29 @@
 
         </div>
     }
-
 </div>
+
 @section Scripts {
-    @* LibMan で追加したSignalRのJavaScript *@ 
+    @* LibMan で追加したSignalR のJavaScript *@
     <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
     <script>
-
-        // Hubとの接続を作る
+        // Hub との接続を作る
         const staffConnection = new signalR.HubConnectionBuilder()
-        .withUrl("/staffOrdersHub")
-        .withAutomaticReconnect()
-        .build();
+                                                .withUrl("/staffOrdersHub")
+                                                .withAutomaticReconnect()
+                                                .build();
         // 通知を受けたら最新の注文一覧を読み直す
-                staffConnection.onreconnected(async () => {
-        await staffConnection.invoke("JoinStaff");
-        window.location.reload();
+        staffConnection.on("OrdersChanged", () => {
+            window.location.reload();
         });
-                // 再接続後も表示内容を更新する
-        staffConnection.onreconnected(() => window.location.reload());
-                staffConnection.start()
-        .then(() => staffConnection.invoke("JoinStaff"))
-        .catch(error => console.error("店舗 SignalR 接続エラー", error));
+        // 再接続後も表示内容を更新する
+        staffConnection.onreconnected(async () => {
+            await staffConnection.invoke("JoinStaff");
+            window.location.reload();
+        });
+
+        staffConnection.start()
+            .then(() => staffConnection.invoke("JoinStaff"))
+            .catch(error => console.error("店舗SignalR 接続エラー", error));
     </script>
 }
